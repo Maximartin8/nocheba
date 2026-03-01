@@ -1532,36 +1532,61 @@ async function castVote(e, id) {
 
 // ── RENDER VOTERS PREVIEW (avatars + click to see all) ──
 function renderVotersPreview(venueId, voters) {
-  const el = document.getElementById('voters-preview-' + venueId);
+  var el = document.getElementById('voters-preview-' + venueId);
   if (!el) return;
-  if (!voters || !voters.length) { el.innerHTML = ''; return; }
+  el.innerHTML = '';
+  if (!voters || !voters.length) return;
 
-  // Stack of avatars
-  let avatarsHtml = '<div style="display:flex;align-items:center;">';
+  // Clickable button
+  var btn = document.createElement('button');
+  btn.style.cssText = 'display:flex;align-items:center;gap:10px;background:var(--ink3);border:1px solid var(--line2);padding:8px 12px;cursor:pointer;width:100%;text-align:left;transition:border-color .2s;';
+  btn.onmouseover = function(){ btn.style.borderColor = 'var(--gold)'; };
+  btn.onmouseout  = function(){ btn.style.borderColor = 'var(--line2)'; };
+  btn.onclick = function(){ openVotersList(venueId); };
+
+  // Avatar stack
+  var avatarWrap = document.createElement('div');
+  avatarWrap.style.cssText = 'display:flex;align-items:center;flex-shrink:0;';
   voters.slice(0,5).forEach(function(u, i) {
-    const av = u.avatar
-      ? '<img src="' + u.avatar + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%">'
-      : u.name.charAt(0).toUpperCase();
-    avatarsHtml += '<div style="width:28px;height:28px;border-radius:50%;background:var(--gold);color:var(--ink);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;overflow:hidden;border:2px solid var(--ink2);margin-left:' + (i===0?'0':'-8px') + ';flex-shrink:0;">' + av + '</div>';
+    var av = document.createElement('div');
+    av.style.cssText = 'width:28px;height:28px;border-radius:50%;background:var(--gold);color:var(--ink);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;overflow:hidden;border:2px solid var(--ink2);margin-left:' + (i===0?'0':'-8px') + ';flex-shrink:0;';
+    if (u.avatar) {
+      var img = document.createElement('img');
+      img.src = u.avatar;
+      img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%;';
+      av.appendChild(img);
+    } else {
+      av.textContent = u.name.charAt(0).toUpperCase();
+    }
+    avatarWrap.appendChild(av);
   });
   if (voters.length > 5) {
-    avatarsHtml += '<div style="width:28px;height:28px;border-radius:50%;background:var(--ink3);color:var(--muted);font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid var(--ink2);margin-left:-8px;">+' + (voters.length-5) + '</div>';
+    var more = document.createElement('div');
+    more.style.cssText = 'width:28px;height:28px;border-radius:50%;background:var(--ink3);color:var(--muted);font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid var(--ink2);margin-left:-8px;';
+    more.textContent = '+' + (voters.length - 5);
+    avatarWrap.appendChild(more);
   }
-  avatarsHtml += '</div>';
 
-  // First person name + instagram
-  const first = voters[0];
-  const firstIg = first.instagram ? '@' + first.instagram : first.name;
-  const moreText = voters.length > 1 ? ' y ' + (voters.length - 1) + ' más' : '';
+  // Text info
+  var info = document.createElement('div');
+  info.style.cssText = 'flex:1;min-width:0;';
+  var first = voters[0];
+  var firstLabel = first.instagram ? '@' + first.instagram : first.name;
+  var moreLabel = voters.length > 1 ? ' y ' + (voters.length - 1) + ' más' : '';
+  var nameDiv = document.createElement('div');
+  nameDiv.style.cssText = 'font-size:11px;color:var(--white);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;';
+  nameDiv.textContent = firstLabel + moreLabel;
+  var subDiv = document.createElement('div');
+  subDiv.style.cssText = 'font-size:9px;color:var(--muted);letter-spacing:1px;margin-top:2px;';
+  subDiv.textContent = 'VAN ESTA SEMANA · TOCAR PARA VER TODOS';
+  info.appendChild(nameDiv);
+  info.appendChild(subDiv);
 
-  el.innerHTML = '<button onclick="openVotersList(' + venueId + ')" style="display:flex;align-items:center;gap:10px;background:var(--ink3);border:1px solid var(--line2);padding:8px 12px;cursor:pointer;width:100%;text-align:left;transition:border-color .2s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--line2)'">'
-    + avatarsHtml
-    + '<div style="flex:1;min-width:0;">'
-    + '<div style="font-size:11px;color:var(--white);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + firstIg + moreText + '</div>'
-    + '<div style="font-size:9px;color:var(--muted);letter-spacing:1px;margin-top:2px;">VAN ESTA SEMANA · TOCAR PARA VER TODOS</div>'
-    + '</div>'
-    + '</button>';
+  btn.appendChild(avatarWrap);
+  btn.appendChild(info);
+  el.appendChild(btn);
 }
+
 
 function refreshModalVote(id) {
   const btn = document.getElementById('mvote-' + id);
@@ -1894,64 +1919,104 @@ function highlightSide(id) {
 function openModal(id) {
   const v = venues.find(x => x.id === id); if(!v) return;
   const on = isMyVote(v.id);
-  const evHtml = v.events.map(function(e) {
-    return '<div class="ev-item' + (e.hoy?' hoy-ev':'') + '">'
-      + '<div style="text-align:center;min-width:38px"><div class="ev-d">' + e.d + '</div><div class="ev-m">' + e.m + '</div></div>'
-      + '<div style="flex:1"><div class="ev-n">' + e.name + (e.hoy?'<span class="hoy-tag">HOY</span>':'') + '</div><div class="ev-dj">' + e.dj + '</div></div>'
-      + '</div>';
-  }).join('');
+  // Build modal using DOM - no string concatenation issues
+  var inner = document.getElementById('modalInner');
+  inner.innerHTML = '';
 
-  const ticketHtml = v.ticketUrl ? (
-    '<div class="msec">'
-    + '<div class="msec-ttl">Entradas</div>'
-    + '<a class="btn-ticket" href="' + (v.ticketEventUrl || v.ticketUrl) + '" target="_blank" rel="noopener">🎟 '
-    + (v.ticketEventUrl ? 'Comprar entrada · ' + ((v.events.find(function(e){return e.hoy;})||{}).name || 'Evento esta semana') : 'Ver entradas en Passline')
-    + '</a>'
-    + '<div class="ticket-note">🔒 Serás redirigido a Passline · Comprá tu entrada oficial ahí</div>'
-    + '</div>'
-  ) : '';
+  // Image header
+  var imgWrap = document.createElement('div'); imgWrap.className = 'modal-img-wrap';
+  var imgBg = document.createElement('div'); imgBg.className = 'modal-img-bg';
+  imgBg.style.background = v.bg; imgBg.textContent = v.emoji;
+  var imgGrad = document.createElement('div'); imgGrad.className = 'modal-img-grad';
+  imgWrap.appendChild(imgBg); imgWrap.appendChild(imgGrad);
+  inner.appendChild(imgWrap);
 
-  document.getElementById('modalInner').innerHTML =
-    '<div class="modal-img-wrap">'
-    + '<div class="modal-img-bg" style="background:' + v.bg + '">' + v.emoji + '</div>'
-    + '<div class="modal-img-grad"></div>'
-    + '</div>'
-    + '<div class="modal-body">'
-    + '<div class="modal-zone">' + v.zone + ' · ' + (v.type==='bar'?'Bar Nocturno':'Boliche') + '</div>'
-    + '<div class="modal-name">' + v.name + '</div>'
-    + '<div class="modal-desc">' + v.desc + '</div>'
+  // Body
+  var body = document.createElement('div'); body.className = 'modal-body';
+  inner.appendChild(body);
 
-    + '<div class="vote-section">'
-    + '<div class="vs-info">'
-    + '<div class="vs-ttl">¿Vas esta semana?</div>'
-    + '<div class="vs-sub" id="mvote-sub-' + v.id + '">' + getV(v.id) + ' persona' + (getV(v.id)!==1?'s':'') + ' quieren ir · Solo podés votar 1 lugar</div>'
-    // Voters preview — clickable button showing avatars + count
-    + '<div id="voters-preview-' + v.id + '" style="margin-top:10px"></div>'
-    + '</div>'
-    + '<button id="mvote-' + v.id + '" class="vote-btn-big' + (on?' on':'') + '" onclick="castVote(event,' + v.id + ')">'
-    + '<span class="vb-icon">' + (on?'✓':'🙋') + '</span>'
-    + '<span class="vb-n">' + getV(v.id) + '</span>'
-    + '<span class="vb-lbl">' + (on?'Tu voto':'Voy aquí') + '</span>'
-    + '</button>'
-    + '</div>'
+  function el(tag, cls, text, styles) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text) e.textContent = text;
+    if (styles) e.style.cssText = styles;
+    return e;
+  }
+  function msec(title) {
+    var s = document.createElement('div'); s.className = 'msec';
+    var t = document.createElement('div'); t.className = 'msec-ttl'; t.textContent = title;
+    s.appendChild(t); body.appendChild(s); return s;
+  }
 
-    + '<div class="msec">'
-    + '<div class="msec-ttl">Información</div>'
-    + '<div class="mrow"><span class="mrow-icon">📍</span><div><span class="mrow-label">Dirección</span>' + v.address + '</div></div>'
-    + '<div class="mrow"><span class="mrow-icon">🕐</span><div><span class="mrow-label">Horario</span>' + v.hours + '</div></div>'
-    + '<div class="mrow"><span class="mrow-icon">💳</span><div><span class="mrow-label">Precios</span>' + v.price + '</div></div>'
-    + '</div>'
+  body.appendChild(el('div','modal-zone', v.zone + ' · ' + (v.type==='bar'?'Bar Nocturno':'Boliche')));
+  body.appendChild(el('div','modal-name', v.name));
+  body.appendChild(el('div','modal-desc', v.desc));
 
-    + '<div class="msec"><div class="msec-ttl">Próximos eventos</div>' + evHtml + '</div>'
+  // Vote section
+  var vs = document.createElement('div'); vs.className = 'vote-section';
+  var vsi = document.createElement('div'); vsi.className = 'vs-info';
+  vsi.appendChild(el('div','vs-ttl','¿Vas esta semana?'));
+  var sub = el('div','vs-sub', getV(v.id) + ' persona' + (getV(v.id)!==1?'s':'') + ' quieren ir · Solo podés votar 1 lugar');
+  sub.id = 'mvote-sub-' + v.id;
+  vsi.appendChild(sub);
+  var vPrev = document.createElement('div'); vPrev.id = 'voters-preview-' + v.id;
+  vPrev.style.marginTop = '10px';
+  vsi.appendChild(vPrev);
+  vs.appendChild(vsi);
+  var vBtn = document.createElement('button');
+  vBtn.id = 'mvote-' + v.id;
+  vBtn.className = 'vote-btn-big' + (on?' on':'');
+  vBtn.innerHTML = '<span class="vb-icon">'+(on?'✓':'🙋')+'</span><span class="vb-n">'+getV(v.id)+'</span><span class="vb-lbl">'+(on?'Tu voto':'Voy aquí')+'</span>';
+  vBtn.onclick = function(e){ castVote(e, v.id); };
+  vs.appendChild(vBtn);
+  body.appendChild(vs);
 
-    + '<div class="msec">'
-    + '<div class="msec-ttl">Ubicación</div>'
-    + '<div class="mini-map-wrap" id="mini-map-' + v.id + '"></div>'
-    + '<button class="btn-maps" onclick="window.open('' + v.maps + '','_blank')">Abrir en Google Maps →</button>'
-    + '</div>'
+  // Info
+  var infoSec = msec('Información');
+  function mrow(icon, label, val) {
+    var r = document.createElement('div'); r.className = 'mrow';
+    var ic = document.createElement('span'); ic.className = 'mrow-icon'; ic.textContent = icon;
+    var d = document.createElement('div');
+    var lb = document.createElement('span'); lb.className = 'mrow-label'; lb.textContent = label;
+    d.appendChild(lb); d.appendChild(document.createTextNode(val));
+    r.appendChild(ic); r.appendChild(d); infoSec.appendChild(r);
+  }
+  mrow('📍','Dirección', v.address);
+  mrow('🕐','Horario', v.hours);
+  mrow('💳','Precios', v.price);
 
-    + ticketHtml
-    + '</div>';
+  // Events
+  var evSec = msec('Próximos eventos');
+  v.events.forEach(function(e) {
+    var ev = document.createElement('div'); ev.className = 'ev-item' + (e.hoy?' hoy-ev':'');
+    var dateDiv = document.createElement('div'); dateDiv.style.cssText = 'text-align:center;min-width:38px';
+    var dd = el('div','ev-d', e.d); var dm = el('div','ev-m', e.m);
+    dateDiv.appendChild(dd); dateDiv.appendChild(dm);
+    var info = document.createElement('div'); info.style.flex = '1';
+    var ename = el('div','ev-n', e.name);
+    if (e.hoy) { var tag = document.createElement('span'); tag.className='hoy-tag'; tag.textContent='HOY'; ename.appendChild(tag); }
+    info.appendChild(ename); info.appendChild(el('div','ev-dj', e.dj));
+    ev.appendChild(dateDiv); ev.appendChild(info); evSec.appendChild(ev);
+  });
+
+  // Map
+  var mapSec = msec('Ubicación');
+  var mapWrap = document.createElement('div'); mapWrap.className = 'mini-map-wrap'; mapWrap.id = 'mini-map-' + v.id;
+  var mapBtn = el('button','btn-maps','Abrir en Google Maps →');
+  mapBtn.onclick = function(){ window.open(v.maps,'_blank'); };
+  mapSec.appendChild(mapWrap); mapSec.appendChild(mapBtn);
+
+  // Tickets
+  if (v.ticketUrl) {
+    var tSec = msec('Entradas');
+    var tLink = document.createElement('a'); tLink.className = 'btn-ticket';
+    tLink.href = v.ticketEventUrl || v.ticketUrl; tLink.target = '_blank'; tLink.rel = 'noopener';
+    var hovEvent = v.events.find(function(e){ return e.hoy; });
+    tLink.textContent = '🎟 ' + (v.ticketEventUrl ? 'Comprar entrada · ' + ((hovEvent||{}).name||'Evento esta semana') : 'Ver entradas en Passline');
+    var tNote = el('div','ticket-note','🔒 Serás redirigido a Passline · Comprá tu entrada oficial ahí');
+    tSec.appendChild(tLink); tSec.appendChild(tNote);
+  }
+
 
   document.getElementById('modalOv').classList.add('on');
   document.body.style.overflow = 'hidden';
