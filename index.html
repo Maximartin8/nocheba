@@ -579,11 +579,11 @@ header{position:sticky;top:0;z-index:200;height:56px;display:flex;align-items:ce
       </div>
     </a>
 
-    <a href="/cdn-cgi/l/email-protection#355b5a564140475b50544752755258545c591b565a58" style="display:flex;align-items:center;gap:14px;padding:20px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--white)">
+        <a id="ceml" href="#" style="display:flex;align-items:center;gap:14px;padding:20px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--white)">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold2)" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
       <div>
         <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Email</div>
-        <div style="font-size:14px;color:var(--pale)"><span class="__cf_email__" data-cfemail="046a6b677071766a61657663446369656d682a676b69">[email&#160;protected]</span></div>
+        <div id="cemlt" style="font-size:14px;color:var(--pale)">...</div>
       </div>
     </a>
 
@@ -592,7 +592,13 @@ header{position:sticky;top:0;z-index:200;height:56px;display:flex;align-items:ce
       <div style="font-size:13px;color:var(--pale);line-height:1.8;margin-bottom:8px">Nocturne es la plataforma donde <b style="color:var(--white)">miles de personas</b> deciden a dónde ir cada semana en Buenos Aires.</div>
       <div style="font-size:13px;color:var(--pale);line-height:1.8;margin-bottom:8px">Si tenés un boliche, bar o evento, aparecer acá significa visibilidad directa con tu público objetivo — la gente que ya está buscando dónde salir.</div>
       <div style="font-size:13px;color:var(--pale);line-height:1.8;margin-bottom:28px">Escribinos y te contamos cómo sumarte.</div>
-      <a href="/cdn-cgi/l/email-protection#ed83828e99989f83888c9f8aad8a808c8481c38e8280d29e988f87888e99d0bc9884889f82cd8c9d8c9f888e889fcd8883cda3828e99989f8388cb8f828994d0a582818cc1cd8088cd8a989e998c9f2e408ccd9e98808c9fcd8084cd81988a8c9fc2889b88839982cd8ccda3828e99989f8388c3cda1889ecd8e9888839982d7" style="display:inline-block;border:1px solid var(--gold);color:var(--gold);font-family:'Montserrat',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:12px 24px;text-decoration:none;transition:all .2s;margin-right:12px">Escribir →</a>
+          <a id="ceml" href="#" style="display:flex;align-items:center;gap:14px;padding:20px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--white)">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold2)" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
+      <div>
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Email</div>
+        <div id="cemlt" style="font-size:14px;color:var(--pale)">...</div>
+      </div>
+    </a>
       <a href="https://instagram.com/nocturne.ba" target="_blank" style="display:inline-block;border:1px solid var(--line2);color:var(--muted);font-family:'Montserrat',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:12px 24px;text-decoration:none;transition:all .2s">DM en IG →</a>
     </div>
 
@@ -626,6 +632,18 @@ header{position:sticky;top:0;z-index:200;height:56px;display:flex;align-items:ce
 
   </div>
 </div>
+<script data-cfasync="false">
+(function(){
+  var p1='nocturne',p2='arg',p3=String.fromCharCode(64),p4='gmail',p5='.com';
+  var em=p1+p2+p3+p4+p5;
+  var a=document.getElementById('ceml');
+  var t=document.getElementById('cemlt');
+  var b=document.getElementById('cemlb');
+  if(a)a.href='mail'+'to:'+em;
+  if(t)t.textContent=em;
+  if(b)b.href='mail'+'to:'+em+'?subject=Quiero aparecer en Nocturne&body=Hola!';
+})();
+</script>
 
 <!-- MODAL -->
 <div class="modal-ov" id="modalOv" onclick="closeModalOv(event)">
