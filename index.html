@@ -330,9 +330,9 @@ header{position:sticky;top:0;z-index:200;height:56px;display:flex;align-items:ce
 .voter-chip-ig{font-size:10px;color:var(--gold2);text-decoration:none;}
 .voter-chip-ig:hover{color:var(--gold3);text-decoration:underline;}
 
-.fav-btn{background:none;border:none;font-size:16px;cursor:pointer;padding:4px 6px;opacity:.5;transition:all .2s;line-height:1;}
-.fav-btn.on{opacity:1;filter:drop-shadow(0 0 4px var(--gold));}
-.fav-btn:hover{opacity:.8;transform:scale(1.2);}
+.fav-btn{background:none;border:1px solid var(--line2);color:var(--muted);font-family:'Montserrat',sans-serif;font-size:10px;font-weight:600;letter-spacing:.5px;cursor:pointer;padding:6px 10px;opacity:1;transition:all .2s;line-height:1;white-space:nowrap;}
+.fav-btn.on{border-color:var(--gold);color:var(--gold);}
+.fav-btn:hover{border-color:var(--gold2);color:var(--gold2);}
 /* ── EVENTS VIEW ── */
 .ev-hero{padding:32px 20px 20px;background:linear-gradient(180deg,var(--ink2) 0%,var(--ink) 100%);}
 .ev-hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(44px,12vw,72px);font-weight:300;letter-spacing:2px;line-height:1;}
@@ -405,9 +405,9 @@ header{position:sticky;top:0;z-index:200;height:56px;display:flex;align-items:ce
 .rank-bar-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--accent2));transition:width .6s ease;}
 
 /* ── CHATBOT ── */
-.chat-fab{position:fixed;bottom:24px;right:20px;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--accent2));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:22px;z-index:900;box-shadow:0 4px 20px rgba(184,151,90,.4);transition:transform .2s;}
+.chat-fab{position:fixed;bottom:80px;right:16px;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--accent2));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:22px;z-index:1100;box-shadow:0 4px 20px rgba(184,151,90,.4);transition:transform .2s;}
 .chat-fab:hover{transform:scale(1.08);}
-.chat-panel{position:fixed;bottom:0;right:0;width:100%;max-width:420px;height:520px;background:var(--ink2);border-top:1px solid var(--line);border-left:1px solid var(--line);z-index:950;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);}
+.chat-panel{position:fixed;bottom:0;right:0;width:100%;max-width:420px;height:520px;background:var(--ink2);border-top:1px solid var(--line);border-left:1px solid var(--line);z-index:1100;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);}
 .chat-panel.open{transform:translateY(0);}
 .chat-head{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
 .chat-head-info{display:flex;align-items:center;gap:10px;}
@@ -483,7 +483,7 @@ header{position:sticky;top:0;z-index:200;height:56px;display:flex;align-items:ce
 
   <!-- SEARCH EVENTS -->
   <div style="padding:0 16px 4px">
-    <input id="ev-search" type="text" placeholder="🔍 Buscar evento o artista..." oninput="filterEventsSearch(this.value)" autocomplete="off" autocorrect="off" spellcheck="false" style="width:100%;padding:11px 16px;background:var(--ink3);border:1px solid var(--line2);color:var(--white);font-family:'Montserrat',sans-serif;font-size:12px;letter-spacing:1px;outline:none;box-sizing:border-box;">
+    <input id="ev-search" type="text" placeholder="🔍 Buscar evento o artista..." oninput="filterEventsSearch(this.value)" autocomplete="new-password" autocorrect="off" spellcheck="false" style="width:100%;padding:11px 16px;background:var(--ink3);border:1px solid var(--line2);color:var(--white);font-family:'Montserrat',sans-serif;font-size:12px;letter-spacing:1px;outline:none;box-sizing:border-box;">
   </div>
 
   <!-- EVENTS GRID -->
@@ -524,7 +524,7 @@ header{position:sticky;top:0;z-index:200;height:56px;display:flex;align-items:ce
     </div>
   </div>
   <div style="padding:0 16px 12px">
-    <input id="search-input" type="text" placeholder="🔍 Buscar boliche o bar..." oninput="searchVenues(this.value)" autocomplete="off" autocorrect="off" spellcheck="false" style="width:100%;padding:12px 16px;background:var(--ink3);border:1px solid var(--line2);color:var(--white);font-family:'Montserrat',sans-serif;font-size:12px;letter-spacing:1px;outline:none;box-sizing:border-box;">
+    <input id="search-input" type="text" placeholder="🔍 Buscar boliche o bar..." oninput="searchVenues(this.value)" autocomplete="new-password" autocorrect="off" spellcheck="false" style="width:100%;padding:12px 16px;background:var(--ink3);border:1px solid var(--line2);color:var(--white);font-family:'Montserrat',sans-serif;font-size:12px;letter-spacing:1px;outline:none;box-sizing:border-box;">
   </div>
   <div class="grid" id="grid"></div>
 </div>
@@ -558,19 +558,19 @@ header{position:sticky;top:0;z-index:200;height:56px;display:flex;align-items:ce
     <div style="font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;letter-spacing:3px;margin-bottom:8px">Contacto</div>
     <div style="width:32px;height:1px;background:var(--gold);margin-bottom:32px"></div>
 
-    <a href="https://instagram.com/nocturne.bsas" target="_blank" style="display:flex;align-items:center;gap:14px;padding:20px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--white)">
+    <a href="https://instagram.com/nocturne.ba" target="_blank" style="display:flex;align-items:center;gap:14px;padding:20px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--white)">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold2)" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="var(--gold2)" stroke="none"/></svg>
       <div>
         <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Instagram</div>
-        <div style="font-size:14px;color:var(--pale)">@nocturne.arg</div>
+        <div style="font-size:14px;color:var(--pale)">@nocturne.ba</div>
       </div>
     </a>
 
-    <a href="/cdn-cgi/l/email-protection#b1dcc8dfd8d6d9c5ddd8d7d4d0c3d6f1d6dcd0d8dd9fd2dedc" style="display:flex;align-items:center;gap:14px;padding:20px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--white)">
+    <a href="/cdn-cgi/l/email-protection#a9c7c6cadddcdbc7ccc8dbcee9cec4c8c0c587cac6c4" style="display:flex;align-items:center;gap:14px;padding:20px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--white)">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold2)" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
       <div>
         <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Email</div>
-        <div style="font-size:14px;color:var(--pale)"><span class="__cf_email__" data-cfemail="c8a0a7a4a988a6a1afa0bca4a1aeade6aba7a5e6a9ba">[email&#160;protected]</span></div>
+        <div style="font-size:14px;color:var(--pale)"><span class="__cf_email__" data-cfemail="83edece0f7f6f1ede6e2f1e4c3e4eee2eaefade0ecee">[email&#160;protected]</span></div>
       </div>
     </a>
 
@@ -702,7 +702,7 @@ header{position:sticky;top:0;z-index:200;height:56px;display:flex;align-items:ce
 
 <div class="toast" id="toast"></div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ─────────────────────────────────────────────
 // DATA — coordenadas verificadas
 // ─────────────────────────────────────────────
@@ -712,7 +712,7 @@ const events = [
   {
     id: 1, venueId: 1, venueName: "Crobar", zone: "Palermo",
     name: "Crobar Techno", dj: "Artistas internacionales",
-    d: "28", m: "Feb", hoy: true, genre: ["electronica"],
+    d: "01", m: "Mar", hoy: true, genre: ["electronica"],
     price: 8000, emoji: "🎵",
     ticketUrl: "https://www.passline.com/busqueda?q=crobar",
     ticketLabel: "Passline", premium: false,
@@ -730,7 +730,7 @@ const events = [
   {
     id: 3, venueId: 10, venueName: "Niceto Club", zone: "Palermo",
     name: "Club Hostel", dj: "Noche de reggaetón",
-    d: "28", m: "Feb", hoy: true, genre: ["reggaeton"],
+    d: "01", m: "Mar", hoy: true, genre: ["reggaeton"],
     price: 5000, emoji: "🕺",
     ticketUrl: "https://www.passline.com/productora/nicetotickets",
     ticketLabel: "Passline", premium: false,
@@ -748,7 +748,7 @@ const events = [
   {
     id: 5, venueId: 43, venueName: "Club Bahrein", zone: "Microcentro",
     name: "Bahrein Techno", dj: "Techno Night",
-    d: "28", m: "Feb", hoy: true, genre: ["electronica", "premium"],
+    d: "01", m: "Mar", hoy: true, genre: ["electronica", "premium"],
     price: 10000, emoji: "🖤",
     ticketUrl: "https://www.passline.com/productora/bahrein",
     ticketLabel: "Passline", premium: false,
@@ -757,7 +757,7 @@ const events = [
   {
     id: 6, venueId: 2, venueName: "Jet Lounge", zone: "Costanera",
     name: "Sábado VIP", dj: "DJ Residente",
-    d: "28", m: "Feb", hoy: true, genre: ["reggaeton", "cachengue"],
+    d: "01", m: "Mar", hoy: true, genre: ["reggaeton", "cachengue"],
     price: 10000, emoji: "💎",
     ticketUrl: "https://www.passline.com/busqueda?q=jet+lounge",
     ticketLabel: "Passline", premium: true,
@@ -766,7 +766,7 @@ const events = [
   {
     id: 7, venueId: 16, venueName: "Palacio Alsina", zone: "Monserrat",
     name: "Palacio Presenta", dj: "Cachengue & Electrónica",
-    d: "28", m: "Feb", hoy: true, genre: ["cachengue", "electronica"],
+    d: "01", m: "Mar", hoy: true, genre: ["cachengue", "electronica"],
     price: 8000, emoji: "🏛",
     ticketUrl: "https://www.passline.com/busqueda?q=palacio+alsina",
     ticketLabel: "Passline", premium: false,
@@ -775,7 +775,7 @@ const events = [
   {
     id: 8, venueId: 3, venueName: "BNN Costanera", zone: "Costanera",
     name: "BNN Sábado", dj: "Top 50 Argentina",
-    d: "28", m: "Feb", hoy: true, genre: ["reggaeton", "cachengue"],
+    d: "01", m: "Mar", hoy: true, genre: ["reggaeton", "cachengue"],
     price: 10000, emoji: "🍌",
     ticketUrl: "https://www.passline.com/busqueda?q=bnn+costanera",
     ticketLabel: "Passline", premium: false,
@@ -802,7 +802,7 @@ const events = [
   {
     id: 11, venueId: 13, venueName: "Cruza Polo", zone: "Palermo",
     name: "Cruza Polo Sábado", dj: "DJ Kessler",
-    d: "28", m: "Feb", hoy: true, genre: ["cachengue", "reggaeton"],
+    d: "01", m: "Mar", hoy: true, genre: ["cachengue", "reggaeton"],
     price: 5000, emoji: "🏇",
     ticketUrl: "https://www.passline.com/eventos/cruza-polo-440094",
     ticketLabel: "Passline", premium: false,
@@ -811,7 +811,7 @@ const events = [
   {
     id: 12, venueId: 11, venueName: "Kika Club", zone: "Palermo",
     name: "Hype by Kika", dj: "Reggaetón + Trap + Hip-hop",
-    d: "28", m: "Feb", hoy: true, genre: ["reggaeton", "cachengue"],
+    d: "01", m: "Mar", hoy: true, genre: ["reggaeton", "cachengue"],
     price: 4000, emoji: "🎤",
     ticketUrl: "https://www.passline.com/busqueda?q=kika+club",
     ticketLabel: "Passline", premium: false,
@@ -1618,7 +1618,7 @@ function renderEvents() {
   let list = [...events];
 
   // Filter by tab
-  if (evFilter === 'hoy') list = list.filter(e => e.hoy);
+  if (evFilter === 'hoy') list = list.filter(e => e.hoy || e.d === '01' || e.d === '07' || e.d === '08');
   else if (evFilter === 'finde') list = list.filter(e => {
     const dm = e.d + e.m;
     // Show events this weekend — simplified: show hoy + next 2 days
@@ -1792,7 +1792,7 @@ function renderDir(f) {
         <div class="card-foot">
           <div class="card-pr">${v.type==='bar'?'Bar libre':'Entrada'} <b>${v.ticketPrice?'$'+v.ticketPrice.toLocaleString('es-AR'):'gratis'}</b></div>
           <div style="display:flex;gap:4px;align-items:center">
-            <button class="fav-btn${isFav(v.id)?' on':''}" onclick="toggleFav(event,${v.id})" title="${isFav(v.id)?'Quitar de favoritos':'Guardar'}" style="display:flex;align-items:center;gap:3px;font-size:11px;color:${isFav(v.id)?'var(--gold)':'var(--muted)'};letter-spacing:.5px;font-family:'Montserrat',sans-serif;">${isFav(v.id)?'❤️':'🤍'}<span>${isFav(v.id)?'Guardado':'Guardar'}</span></button>
+            <button class="fav-btn${isFav(v.id)?' on':''}" onclick="toggleFav(event,${v.id})">${isFav(v.id)?'❤️ Guardado':'🤍 Guardar'}</button>
             <button class="vote-btn${on?' on':''}" onclick="castVote(event,${v.id})">
               <span>${on?'✓':'🙋'}</span><span class="vote-count">${getV(v.id)}</span>
             </button>
@@ -2206,7 +2206,7 @@ function renderProfile() {
       ${igHtml}
       <div class="profile-stats">
         <div class="profile-stat"><b>${myVote!==null?1:0}</b>Voto activo</div>
-        <div class="profile-stat"><b>${new Date().getFullYear() - 2023}</b>años en Nocturne</div>
+        <div class="profile-stat"><b>${u.joinDate ? new Date().getFullYear() - new Date(u.joinDate).getFullYear() || "< 1" : "< 1"}</b>años en Nocturne</div>
       </div>
     </div>`;
 
@@ -2536,5 +2536,4 @@ function showInstallBanner() {
         <div style="font-size:10px;color:#8a80a0;margin-top:2px">Agregá la app a tu pantalla de inicio</div>
       </div>
       <div style="display:flex;gap:8px">
-        <button onclick="document.getElementById('install-banner').remove();deferredPrompt=null" style="background:none;border:1px solid #352f42;color:#8a80a0;padding:8px 12px;font-size:10px;font-family:'Montserrat',sans-serif;cursor:pointer">Ahora no</button>
-        <button onclick="installApp()" style="background:linear-grad
+        <button onclick="document.getElementById('install-banner').remove();deferr
