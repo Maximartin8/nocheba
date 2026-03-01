@@ -432,22 +432,22 @@ header{position:sticky;top:0;z-index:200;height:56px;display:flex;align-items:ce
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold2)" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="var(--gold2)" stroke="none"/></svg>
       <div>
         <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Instagram</div>
-        <div style="font-size:14px;color:var(--pale)">@nightlife.bsas</div>
+        <div style="font-size:14px;color:var(--pale)">@nightlife.arg</div>
       </div>
     </a>
 
-    <a href="mailto:hola@nightlife.com.ar" style="display:flex;align-items:center;gap:14px;padding:20px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--white)">
+    <a href="mailto:mynightlifearg@gmail.com" style="display:flex;align-items:center;gap:14px;padding:20px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--white)">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold2)" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
       <div>
         <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Email</div>
-        <div style="font-size:14px;color:var(--pale)">hola@nightlife.com.ar</div>
+        <div style="font-size:14px;color:var(--pale)"><span class="__cf_email__" data-cfemail="c8a0a7a4a988a6a1afa0bca4a1aeade6aba7a5e6a9ba">[email&#160;protected]</span></div>
       </div>
     </a>
 
     <div style="margin-top:48px;padding-top:32px;border-top:1px solid var(--line)">
       <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px">¿Querés aparecer en Nightlife?</div>
       <div style="font-size:13px;color:var(--pale);line-height:1.7;margin-bottom:24px">Si tenés un boliche, bar o evento y querés sumarte a la plataforma, escribinos.</div>
-      <a href="mailto:hola@nightlife.com.ar?subject=Propuesta de negocio" style="display:inline-block;border:1px solid var(--gold);color:var(--gold);font-family:'Montserrat',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:12px 24px;text-decoration:none;transition:all .2s">Escribir →</a>
+      <a href="mailto:mynightlifearg@gmail.com" style="display:inline-block;border:1px solid var(--gold);color:var(--gold);font-family:'Montserrat',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:12px 24px;text-decoration:none;transition:all .2s">Escribir →</a>
     </div>
   </div>
 </div>
@@ -572,7 +572,7 @@ header{position:sticky;top:0;z-index:200;height:56px;display:flex;align-items:ce
 
 <div class="toast" id="toast"></div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ─────────────────────────────────────────────
 // DATA — coordenadas verificadas
 // ─────────────────────────────────────────────
@@ -1975,18 +1975,3 @@ function showInstallBanner() {
         <button onclick="document.getElementById('install-banner').remove();deferredPrompt=null" style="background:none;border:1px solid #352f42;color:#8a80a0;padding:8px 12px;font-size:10px;font-family:'Montserrat',sans-serif;cursor:pointer">Ahora no</button>
         <button onclick="installApp()" style="background:linear-gradient(135deg,#7c3aed,#c4527a);border:none;color:#fff;padding:8px 16px;font-size:10px;font-weight:700;letter-spacing:1px;font-family:'Montserrat',sans-serif;cursor:pointer">INSTALAR</button>
       </div>
-    </div>`;
-  document.body.appendChild(banner);
-}
-
-async function installApp() {
-  if (!deferredPrompt) return;
-  deferredPrompt.prompt();
-  await deferredPrompt.userChoice;
-  deferredPrompt = null;
-  const banner = document.getElementById('install-banner');
-  if (banner) banner.remove();
-}
-</script>
-</body>
-</html>
