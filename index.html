@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Nightlife BsAs</title>
+<title>Nocturne BsAs</title>
 <meta name="description" content="La mejor guía de boliches y bares de Buenos Aires. Votos en tiempo real, eventos, entradas.">
 <meta name="theme-color" content="#080608">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Nightlife">
+<meta name="apple-mobile-web-app-title" content="Nocturne">
 <link rel="manifest" href="manifest.json">
 <!-- Open Graph para compartir por WhatsApp/IG -->
-<meta property="og:title" content="Nightlife BsAs 🌙">
+<meta property="og:title" content="Nocturne BsAs 🌙">
 <meta property="og:description" content="¿A dónde salís esta noche? Votá tu boliche favorito de Buenos Aires.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=1200&q=80">
@@ -375,6 +375,69 @@ header{position:sticky;top:0;z-index:200;height:56px;display:flex;align-items:ce
 .ev-ticket-btn.secondary:hover{border-color:var(--gold);color:var(--gold);}
 .ev-empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--muted);}
 
+/* ── VOTER CHIPS ── */
+.voter-chip{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--ink3);border:1px solid var(--line);margin-bottom:6px;}
+.voter-chip-av{width:32px;height:32px;border-radius:50%;background:var(--gold);color:var(--ink);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;overflow:hidden;flex-shrink:0;}
+.voter-chip-av img{width:100%;height:100%;object-fit:cover;}
+.voter-chip-name{font-size:12px;color:var(--white);font-weight:600;flex:1;}
+.voter-chip-ig{font-size:10px;color:var(--gold2);text-decoration:none;letter-spacing:.5px;}
+.voter-chip-ig:hover{color:var(--gold);}
+
+/* ── RANKING ── */
+.ranking-section{padding:16px 16px 0;}
+.ranking-title{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;}
+.ranking-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);cursor:pointer;transition:opacity .15s;}
+.ranking-item:hover{opacity:.8;}
+.ranking-item:last-child{border-bottom:none;}
+.rank-num{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--muted);width:28px;text-align:center;flex-shrink:0;}
+.rank-num.top{color:var(--gold);}
+.rank-emoji{font-size:24px;flex-shrink:0;}
+.rank-info{flex:1;min-width:0;}
+.rank-name{font-size:13px;font-weight:700;color:var(--white);margin-bottom:2px;}
+.rank-zone{font-size:10px;letter-spacing:1px;color:var(--muted);text-transform:uppercase;}
+.rank-voters{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.rank-avatars{display:flex;}
+.rank-avatar{width:22px;height:22px;border-radius:50%;background:var(--gold);color:var(--ink);font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid var(--ink2);margin-left:-6px;overflow:hidden;flex-shrink:0;}
+.rank-avatar:first-child{margin-left:0;}
+.rank-avatar img{width:100%;height:100%;object-fit:cover;}
+.rank-count{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;color:var(--gold);min-width:20px;text-align:right;}
+.rank-bar{height:2px;background:var(--line);margin-top:6px;border-radius:1px;overflow:hidden;}
+.rank-bar-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--accent2));transition:width .6s ease;}
+
+/* ── CHATBOT ── */
+.chat-fab{position:fixed;bottom:24px;right:20px;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--accent2));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:22px;z-index:900;box-shadow:0 4px 20px rgba(184,151,90,.4);transition:transform .2s;}
+.chat-fab:hover{transform:scale(1.08);}
+.chat-panel{position:fixed;bottom:0;right:0;width:100%;max-width:420px;height:520px;background:var(--ink2);border-top:1px solid var(--line);border-left:1px solid var(--line);z-index:950;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);}
+.chat-panel.open{transform:translateY(0);}
+.chat-head{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.chat-head-info{display:flex;align-items:center;gap:10px;}
+.chat-head-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:18px;}
+.chat-head-name{font-size:13px;font-weight:700;color:var(--white);}
+.chat-head-status{font-size:10px;color:var(--gold2);letter-spacing:.5px;}
+.chat-close{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:4px;}
+.chat-msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;scrollbar-width:thin;scrollbar-color:var(--line) transparent;}
+.chat-msg{max-width:82%;display:flex;flex-direction:column;gap:3px;}
+.chat-msg.user{align-self:flex-end;align-items:flex-end;}
+.chat-msg.bot{align-self:flex-start;align-items:flex-start;}
+.chat-bubble{padding:10px 14px;font-size:13px;line-height:1.5;color:var(--white);}
+.chat-msg.user .chat-bubble{background:linear-gradient(135deg,var(--gold),var(--accent2));color:var(--ink);font-weight:500;}
+.chat-msg.bot .chat-bubble{background:var(--ink3);border:1px solid var(--line);}
+.chat-time{font-size:9px;color:var(--muted);letter-spacing:.5px;}
+.chat-typing{display:flex;gap:4px;align-items:center;padding:10px 14px;background:var(--ink3);border:1px solid var(--line);width:fit-content;}
+.chat-typing span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:typing 1.2s infinite;}
+.chat-typing span:nth-child(2){animation-delay:.2s;}
+.chat-typing span:nth-child(3){animation-delay:.4s;}
+@keyframes typing{0%,60%,100%{opacity:.3}30%{opacity:1}}
+.chat-input-row{padding:12px 16px;border-top:1px solid var(--line);display:flex;gap:8px;flex-shrink:0;}
+.chat-input{flex:1;background:var(--ink3);border:1px solid var(--line2);color:var(--white);padding:10px 14px;font-family:'Montserrat',sans-serif;font-size:12px;outline:none;}
+.chat-input::placeholder{color:var(--muted);}
+.chat-send{background:var(--gold);border:none;color:var(--ink);width:38px;height:38px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s;}
+.chat-send:hover{background:var(--gold2);}
+.chat-suggestions{display:flex;gap:6px;padding:0 16px 10px;overflow-x:auto;scrollbar-width:none;flex-shrink:0;}
+.chat-suggestions::-webkit-scrollbar{display:none;}
+.chat-sugg{padding:6px 12px;background:none;border:1px solid var(--line2);color:var(--muted);font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:.5px;cursor:pointer;white-space:nowrap;transition:all .15s;}
+.chat-sugg:hover{border-color:var(--gold);color:var(--gold);}
+
 /* TOAST */
 .toast{position:fixed;bottom:68px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--ink3);border:1px solid var(--gold);color:var(--gold);font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;padding:10px 18px;opacity:0;transition:all .3s;z-index:800;white-space:nowrap;}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
@@ -383,7 +446,7 @@ header{position:sticky;top:0;z-index:200;height:56px;display:flex;align-items:ce
 <body>
 
 <header>
-  <a class="logo" href="#">NIGHT<b>LIFE</b></a>
+  <a class="logo" href="#">NOC<b>TURNE</b></a>
   <div class="hdr-right" id="hdrRight">
     <button class="btn-sm" onclick="enterGuest()">Invitado</button>
     <button class="btn-sm gold" id="loginBtn" onclick="showAuth()">Entrar</button>
@@ -425,6 +488,13 @@ header{position:sticky;top:0;z-index:200;height:56px;display:flex;align-items:ce
 
   <!-- EVENTS GRID -->
   <div id="events-grid" class="events-grid"></div>
+
+  <!-- RANKING SECTION -->
+  <div class="ranking-section">
+    <div class="ranking-title">🔥 Ranking — ¿A dónde va la gente esta semana?</div>
+    <div id="ranking-list"></div>
+  </div>
+  <div style="height:80px"></div>
 </div>
 
 <!-- DIRECTORY -->
@@ -488,11 +558,11 @@ header{position:sticky;top:0;z-index:200;height:56px;display:flex;align-items:ce
     <div style="font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;letter-spacing:3px;margin-bottom:8px">Contacto</div>
     <div style="width:32px;height:1px;background:var(--gold);margin-bottom:32px"></div>
 
-    <a href="https://instagram.com/nightlife.bsas" target="_blank" style="display:flex;align-items:center;gap:14px;padding:20px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--white)">
+    <a href="https://instagram.com/nocturne.bsas" target="_blank" style="display:flex;align-items:center;gap:14px;padding:20px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--white)">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold2)" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="var(--gold2)" stroke="none"/></svg>
       <div>
         <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Instagram</div>
-        <div style="font-size:14px;color:var(--pale)">@nightlife.arg</div>
+        <div style="font-size:14px;color:var(--pale)">@nocturne.arg</div>
       </div>
     </a>
 
@@ -505,7 +575,7 @@ header{position:sticky;top:0;z-index:200;height:56px;display:flex;align-items:ce
     </a>
 
     <div style="margin-top:48px;padding-top:32px;border-top:1px solid var(--line)">
-      <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px">¿Querés aparecer en Nightlife?</div>
+      <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px">¿Querés aparecer en Nocturne?</div>
       <div style="font-size:13px;color:var(--pale);line-height:1.7;margin-bottom:24px">Si tenés un boliche, bar o evento y querés sumarte a la plataforma, escribinos.</div>
       <a href="/cdn-cgi/l/email-protection#28455146414f405c44414e4d495a4f684f45494144064b4745" style="display:inline-block;border:1px solid var(--gold);color:var(--gold);font-family:'Montserrat',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:12px 24px;text-decoration:none;transition:all .2s">Escribir →</a>
     </div>
@@ -1575,6 +1645,8 @@ function renderEvents() {
 
   const grid = document.getElementById('events-grid');
   if (!grid) return;
+  // Render ranking too
+  renderRanking();
 
   if (!list.length) {
     grid.innerHTML = `<div class="ev-empty"><div style="font-size:36px;margin-bottom:12px">🎵</div><div>Sin eventos para este filtro</div></div>`;
@@ -1912,12 +1984,30 @@ async function saveUsers(users) {
   // No-op: users saved individually via doRegister/saveEditProfile
 }
 async function loadCurrentUser() {
-  try { const s = localStorage.getItem('nocheba-session'); if(s) currentUser = JSON.parse(s); } catch(e) {}
+  try {
+    const s = localStorage.getItem('nocheba-session');
+    if (s) {
+      currentUser = JSON.parse(s);
+      // Verify session is still valid by pinging Supabase
+      const token = localStorage.getItem('nocheba-token');
+      if (token) {
+        const res = await fetch(SB_URL + '/auth/v1/user', {
+          headers: { 'Authorization': 'Bearer ' + token, 'apikey': SB_KEY }
+        });
+        if (!res.ok) {
+          // Token expired - clear session
+          currentUser = null;
+          localStorage.removeItem('nocheba-session');
+          localStorage.removeItem('nocheba-token');
+        }
+      }
+    }
+  } catch(e) { currentUser = null; }
 }
 async function saveSession() {
   try {
     if (currentUser) localStorage.setItem('nocheba-session', JSON.stringify(currentUser));
-    else localStorage.removeItem('nocheba-session');
+    else { localStorage.removeItem('nocheba-session'); localStorage.removeItem('nocheba-token'); }
   } catch(e) {}
 }
 
@@ -2056,7 +2146,8 @@ async function handleOAuthCallback() {
       }
       const userRow = existing[0] || { id: userData.id, email: userData.email, name: userData.user_metadata?.full_name || userData.email.split('@')[0], avatar: userData.user_metadata?.avatar_url || null };
       currentUser = { id: userRow.id, name: userRow.name, email: userRow.email, avatar: userRow.avatar, instagram: userRow.instagram, joinDate: userRow.join_date };
-      localStorage.setItem('nocheba_session', JSON.stringify(currentUser));
+      localStorage.setItem('nocheba-session', JSON.stringify(currentUser));
+      localStorage.setItem('nocheba-token', accessToken);
       window.history.replaceState({}, document.title, window.location.pathname);
       updateHeader();
       closeAuth();
@@ -2115,7 +2206,7 @@ function renderProfile() {
       ${igHtml}
       <div class="profile-stats">
         <div class="profile-stat"><b>${myVote!==null?1:0}</b>Voto activo</div>
-        <div class="profile-stat"><b>${new Date().getFullYear() - 2023}</b>años en Nightlife</div>
+        <div class="profile-stat"><b>${new Date().getFullYear() - 2023}</b>años en Nocturne</div>
       </div>
     </div>`;
 
@@ -2251,6 +2342,168 @@ async function saveVoterToVenue(venueId, remove=false) {
 function renderAll() {
   renderEvents();
   renderDir(currentFilter);
+  renderRanking();
+}
+
+// ── RANKING ──
+let voterCache = {}; // venueId -> [{name, avatar}]
+
+async function renderRanking() {
+  const el = document.getElementById('ranking-list');
+  if (!el) return;
+
+  // Sort venues by vote count
+  const ranked = venues
+    .filter(v => getV(v.id) > 0)
+    .sort((a,b) => getV(b.id) - getV(a.id))
+    .slice(0, 10);
+
+  if (!ranked.length) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:12px;padding:20px 0;text-align:center">Todavía nadie votó esta semana. ¡Sé el primero!</div>';
+    return;
+  }
+
+  const maxVotes = getV(ranked[0].id) || 1;
+
+  el.innerHTML = ranked.map((v, i) => {
+    const count = getV(v.id);
+    const pct = Math.round((count / maxVotes) * 100);
+    const isTop = i < 3;
+    const cached = voterCache[v.id] || [];
+    const avatarsHtml = cached.slice(0,4).map(u => {
+      const av = u.avatar ? `<img src="${u.avatar}" alt="">` : u.name.charAt(0).toUpperCase();
+      return `<div class="rank-avatar">${av}</div>`;
+    }).join('');
+
+    return `<div class="ranking-item" onclick="openModal(${v.id})">
+      <div class="rank-num${isTop?' top':''}">${i+1}</div>
+      <div class="rank-emoji">${v.emoji}</div>
+      <div class="rank-info">
+        <div class="rank-name">${v.name}</div>
+        <div class="rank-zone">${v.zone}</div>
+        <div class="rank-bar"><div class="rank-bar-fill" style="width:${pct}%"></div></div>
+      </div>
+      <div class="rank-voters">
+        <div class="rank-avatars">${avatarsHtml}</div>
+        <div class="rank-count">${count}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Load voter avatars in background
+  ranked.forEach(async v => {
+    if (!voterCache[v.id]) {
+      const voters = await getVotersForVenue(v.id);
+      voterCache[v.id] = voters;
+      renderRanking(); // re-render with avatars
+    }
+  });
+}
+
+// ── CHATBOT ──
+let chatOpen = false;
+let chatHistory = [];
+const CHAT_API = 'https://api.anthropic.com/v1/messages';
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  document.getElementById('chat-panel').classList.toggle('open', chatOpen);
+  if (chatOpen) document.getElementById('chat-input').focus();
+}
+
+function sendSugg(btn) {
+  document.getElementById('chat-input').value = btn.textContent;
+  document.getElementById('chat-suggs').style.display = 'none';
+  sendChat();
+}
+
+function addChatMsg(role, text) {
+  const msgs = document.getElementById('chat-msgs');
+  const now = new Date().toLocaleTimeString('es-AR', {hour:'2-digit',minute:'2-digit'});
+  const div = document.createElement('div');
+  div.className = 'chat-msg ' + role;
+  div.innerHTML = `<div class="chat-bubble">${text}</div><div class="chat-time">${now}</div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  return div;
+}
+
+function showTyping() {
+  const msgs = document.getElementById('chat-msgs');
+  const div = document.createElement('div');
+  div.className = 'chat-msg bot';
+  div.id = 'chat-typing';
+  div.innerHTML = '<div class="chat-typing"><span></span><span></span><span></span></div>';
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function hideTyping() {
+  const t = document.getElementById('chat-typing');
+  if (t) t.remove();
+}
+
+async function sendChat() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+
+  addChatMsg('user', text);
+  chatHistory.push({ role: 'user', content: text });
+  showTyping();
+
+  // Build context from current venues/events data
+  const topVenues = venues.slice(0,15).map(v =>
+    `${v.name} (${v.zone}, ${v.music.join('/')}, entrada desde $${v.ticketPrice||'gratis'}, horario: ${v.hours})`
+  ).join('
+');
+
+  const todayEvents = events.filter(e => e.hoy).map(e =>
+    `${e.name} en ${e.venueName} - ${e.dj} - $${e.price.toLocaleString('es-AR')}`
+  ).join('
+');
+
+  const systemPrompt = `Sos Nocturne AI, el asistente de Nocturne — una app de vida nocturna de Buenos Aires.
+Tu trabajo es recomendar lugares y eventos basándote en lo que pide el usuario.
+Respondé en español, de forma breve y directa (máximo 3-4 líneas). Usá emojis con moderación.
+Siempre terminá con una recomendación concreta de 1-2 lugares o eventos.
+
+LUGARES DISPONIBLES HOY:
+${topVenues}
+
+EVENTOS DE HOY:
+${todayEvents}
+
+Si el usuario pregunta sobre precios, horarios o música, usá esa info.
+Si no tenés info exacta, dalo por aproximado y sugerí que vean el directorio completo.`;
+
+  try {
+    const res = await fetch(CHAT_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 300,
+        system: systemPrompt,
+        messages: chatHistory
+      })
+    });
+
+    const data = await res.json();
+    hideTyping();
+
+    const reply = data?.content?.[0]?.text || 'Lo siento, hubo un error. Intentá de nuevo.';
+    chatHistory.push({ role: 'assistant', content: reply });
+    addChatMsg('bot', reply);
+
+    // Keep history manageable
+    if (chatHistory.length > 12) chatHistory = chatHistory.slice(-10);
+
+  } catch(e) {
+    hideTyping();
+    addChatMsg('bot', 'Hubo un error de conexión. Intentá de nuevo en un momento.');
+  }
 }
 
 // ── INIT ──
@@ -2288,7 +2541,7 @@ function showInstallBanner() {
   banner.innerHTML = `
     <div style="position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,#181520,#201c2a);border-top:1px solid #352f42;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;z-index:9999;font-family:'Montserrat',sans-serif">
       <div>
-        <div style="font-size:11px;font-weight:700;letter-spacing:1px;color:#f5f0f8">📲 Instalar Nightlife</div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:1px;color:#f5f0f8">📲 Instalar Nocturne</div>
         <div style="font-size:10px;color:#8a80a0;margin-top:2px">Agregá la app a tu pantalla de inicio</div>
       </div>
       <div style="display:flex;gap:8px">
