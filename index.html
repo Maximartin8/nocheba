@@ -1470,10 +1470,11 @@ async function sbDelete(table, filter) {
 
 // ── STORAGE ──
 async function loadState() {
-  // Load global votes from Supabase
-  const data = await sbGet('votes', 'select=venue_id,count');
-  if (data && Array.isArray(data)) {
-    data.forEach(r => { votes[r.venue_id] = r.count; });
+  // Calculate vote counts directly from user_votes (source of truth)
+  const uvData = await sbGet('user_votes', 'select=venue_id');
+  if (uvData && Array.isArray(uvData)) {
+    votes = {};
+    uvData.forEach(r => { votes[r.venue_id] = (votes[r.venue_id] || 0) + 1; });
   }
   // Load current user's vote from localStorage (session-specific)
   try { const v = localStorage.getItem('nocheba-myvote'); if(v) myVote = JSON.parse(v); } catch(e) {}
