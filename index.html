@@ -2947,15 +2947,15 @@ async function saveVoterToVenue(venueId, remove=false) {
 // ── RENDER ALL ──
 // renderAllUI — re-renders everything using current in-memory state (no Supabase reload)
 function renderAllUI() {
+  renderDir(currentFilter);
   renderEvents();
-  renderVenues();
   renderRanking();
   renderFavs();
 }
 
 function renderAll() {
-  renderEvents();
   renderDir(currentFilter);
+  renderEvents();
   renderRanking();
 }
 
