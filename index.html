@@ -2292,24 +2292,27 @@ function closeModal() {
 
 // ── VOTERS LIST MODAL ──
 async function openVotersList(venueId) {
-  if (!currentUser) {
-    showToast('Iniciá sesión para ver quién va 👤');
-    setTimeout(function(){ showAuth(); }, 600);
-    return;
-  }
   const v = venues.find(function(x){ return x.id === venueId; });
   if (!v) return;
 
-  // Use cache if available, otherwise fetch
+  // Fetch registered voters
   var voters = voterCache[venueId] || await getVotersForVenue(venueId);
 
-  // Inject current user optimistically
+  // Inject current logged-in user optimistically
   if (currentUser && isMyVote(venueId)) {
     var alreadyIn = voters.find(function(u){ return u.id === currentUser.id; });
     if (!alreadyIn) voters = [{ id: currentUser.id, name: currentUser.name, avatar: currentUser.avatar, instagram: currentUser.instagram }].concat(voters);
   }
 
-  const count = voters.length;
+  // Calculate anon count: total votes - registered voters
+  var totalVotes = getV(venueId);
+  var registeredCount = voters.length;
+  var anonCount = Math.max(0, totalVotes - registeredCount);
+
+  // Also inject current anon user if they voted this venue
+  var isAnonVoter = !currentUser && isMyVote(venueId);
+
+  var count = registeredCount + anonCount;
   const ov = document.getElementById('votersListOv');
   const inner = document.getElementById('votersListInner');
 
@@ -2328,7 +2331,7 @@ async function openVotersList(venueId) {
   name.textContent = v.name;
   var sub = document.createElement('div');
   sub.style.cssText = 'font-size:11px;color:var(--gold);margin-top:4px';
-  sub.textContent = count + ' persona' + (count!==1?'s':'') + ' van esta semana';
+  sub.textContent = (count||0) + ' persona' + ((count||0)!==1?'s':'') + ' van esta semana';
   titleWrap.appendChild(zone); titleWrap.appendChild(name); titleWrap.appendChild(sub);
   var closeBtn = document.createElement('button');
   closeBtn.style.cssText = 'background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer;padding:4px;flex-shrink:0;';
@@ -2388,6 +2391,53 @@ async function openVotersList(venueId) {
       list.appendChild(row);
     });
   }
+  // Anon row: show current anon voter + count of other guests
+  if (isAnonVoter || anonCount > 0) {
+    var anonSection = document.createElement('div');
+    anonSection.style.cssText = 'border-top:1px solid var(--line);padding:10px 0;';
+
+    if (isAnonVoter) {
+      // Show current anon user as "Vos (invitado)"
+      var youRow = document.createElement('div');
+      youRow.style.cssText = 'display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);';
+      var youAv = document.createElement('div');
+      youAv.style.cssText = 'width:38px;height:38px;border-radius:50%;background:var(--line2);color:var(--muted);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;';
+      youAv.textContent = '👤';
+      var youInfo = document.createElement('div');
+      var youName = document.createElement('div');
+      youName.style.cssText = 'font-size:13px;font-weight:600;color:var(--white);';
+      youName.textContent = 'Vos (invitado)';
+      var youSub = document.createElement('div');
+      youSub.style.cssText = 'font-size:10px;color:var(--gold);margin-top:2px;cursor:pointer;';
+      youSub.textContent = 'Iniciá sesión para mostrar tu perfil →';
+      youSub.onclick = function(){ closeVotersList(); setTimeout(showAuth, 300); };
+      youInfo.appendChild(youName); youInfo.appendChild(youSub);
+      youRow.appendChild(youAv); youRow.appendChild(youInfo);
+      anonSection.appendChild(youRow);
+    }
+
+    // Other anon guests count
+    var othersAnon = anonCount - (isAnonVoter ? 0 : 0);
+    if (othersAnon > 0) {
+      var guestRow = document.createElement('div');
+      guestRow.style.cssText = 'display:flex;align-items:center;gap:12px;padding:10px 0;';
+      var guestAv = document.createElement('div');
+      guestAv.style.cssText = 'width:38px;height:38px;border-radius:50%;background:var(--ink3);color:var(--muted);display:flex;align-items:center;justify-content:center;font-size:16px;border:1px solid var(--line2);flex-shrink:0;';
+      guestAv.textContent = '👥';
+      var guestInfo = document.createElement('div');
+      var guestName = document.createElement('div');
+      guestName.style.cssText = 'font-size:13px;font-weight:600;color:var(--muted);';
+      guestName.textContent = '+' + othersAnon + ' invitado' + (othersAnon !== 1 ? 's' : '');
+      var guestSub = document.createElement('div');
+      guestSub.style.cssText = 'font-size:10px;color:var(--muted);margin-top:2px;';
+      guestSub.textContent = 'Sin cuenta registrada';
+      guestInfo.appendChild(guestName); guestInfo.appendChild(guestSub);
+      guestRow.appendChild(guestAv); guestRow.appendChild(guestInfo);
+      anonSection.appendChild(guestRow);
+    }
+    list.appendChild(anonSection);
+  }
+
   inner.appendChild(list);
 
   ov.classList.add('on');
