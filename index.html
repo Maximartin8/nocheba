@@ -200,7 +200,7 @@ header{position:sticky;top:0;z-index:200;height:56px;display:flex;align-items:ce
 .vb-lbl{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;}
 
 /* TICKET */
-.btn-ticket{width:100%;padding:14px;background:var(--gold);color:var(--ink);border:none;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .2s;margin-bottom:6px;}
+.btn-ticket{width:100%;padding:14px;background:var(--gold);color:var(--ink);border:none;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .2s;margin-bottom:6px;text-decoration:none;}
 .btn-ticket:hover{background:var(--gold2);}
 .ticket-note{font-size:10px;color:var(--muted);text-align:center;margin-bottom:16px;}
 .modal-close-btn{position:fixed;top:14px;right:14px;width:34px;height:34px;background:var(--ink3);border:1px solid var(--line2);color:var(--pale);font-size:17px;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:500;}
@@ -522,6 +522,7 @@ const venues = [
     lat:-34.5765, lng:-58.4285,
     music:["Techno","House","Electrónica"],
     ticketUrl:"https://www.passline.com/productora/2443149-crobar-club",
+    ticketEventUrl:null, // ← actualizar semanalmente con el link del evento específico
     events:[{d:"28",m:"Feb",name:"Crobar Techno",dj:"Artistas internacionales",hoy:true},{d:"08",m:"Mar",name:"Carl Cox",dj:"Legendary DJ set",hoy:false},{d:"15",m:"Mar",name:"TIGA Live",dj:"DJ set + performance",hoy:false}],
     maps:"https://maps.google.com/?q=Av+del+Libertador+3883+Palermo+Buenos+Aires" },
 
@@ -533,6 +534,7 @@ const venues = [
     lat:-34.5538, lng:-58.4175,
     music:["Reggaetón","House","Comercial"],
     ticketUrl:"https://www.passline.com/productora/240965-homerixsrl",
+    ticketEventUrl:null, // ← actualizar semanalmente con el link del evento específico
     events:[{d:"28",m:"Feb",name:"Sábado VIP",dj:"DJ Residente",hoy:true},{d:"07",m:"Mar",name:"Viernes de Jet",dj:"DJ Internacional",hoy:false}],
     maps:"https://maps.google.com/?q=Jet+Lounge+Av+Rafael+Obligado+4801+Costanera+Buenos+Aires" },
 
@@ -543,7 +545,8 @@ const venues = [
     desc:"Banana en la Costanera. Pop, reggaetón y la clientela más exigente de BA. Ambiente cheto garantizado.",
     lat:-34.5428, lng:-58.4332,
     music:["Reggaetón","Pop","House"],
-    ticketUrl:"https://www.passline.com/productora/bnn-chile",
+    ticketUrl:"https://www.passline.com/busqueda?q=bnn+costanera+buenos+aires",
+    ticketEventUrl:null, // ← actualizar semanalmente con el link del evento específico
     events:[{d:"28",m:"Feb",name:"BNN Sábado",dj:"Top 50 Argentina",hoy:true},{d:"07",m:"Mar",name:"Fiesta Latina",dj:"DJ Residente",hoy:false}],
     maps:"https://maps.google.com/?q=Av+Rafael+Obligado+6201+Costanera+Buenos+Aires" },
 
@@ -555,6 +558,7 @@ const venues = [
     lat:-34.5424, lng:-58.4340,
     music:["Reggaetón","Pop","Comercial"],
     ticketUrl:"https://www.passline.com/busqueda?q=tequila+costanera",
+    ticketEventUrl:null, // ← actualizar semanalmente con el link del evento específico
     events:[{d:"28",m:"Feb",name:"Tequila Sábado",dj:"DJ Residente",hoy:true},{d:"07",m:"Mar",name:"Fiesta 90s",dj:"Retro Night",hoy:false}],
     maps:"https://maps.google.com/?q=Av+Rafael+Obligado+6211+Costanera+Buenos+Aires" },
 
@@ -566,6 +570,7 @@ const venues = [
     lat:-34.5432, lng:-58.4338,
     music:["Techno","Industrial","Dark"],
     ticketUrl:"https://www.passline.com/busqueda?q=fabrika+moscu+buenos+aires",
+    ticketEventUrl:null, // ← actualizar semanalmente con el link del evento específico
     events:[{d:"08",m:"Mar",name:"SPFDJ",dj:"Hard Techno",hoy:false},{d:"22",m:"Mar",name:"Paula Temple",dj:"Industrial Rave",hoy:false}],
     maps:"https://maps.google.com/?q=Av+Rafael+Obligado+6151+Costanera+Buenos+Aires" },
 
@@ -577,6 +582,7 @@ const venues = [
     lat:-34.5436, lng:-58.4334,
     music:["Cachengue","Electrónica","House"],
     ticketUrl:"https://www.passline.com/busqueda?q=creta+costanera",
+    ticketEventUrl:null, // ← actualizar semanalmente con el link del evento específico
     events:[{d:"28",m:"Feb",name:"Creta Sábado",dj:"Glitter Night",hoy:true},{d:"07",m:"Mar",name:"Electrónica & Cachengue",dj:"DJs rotativos",hoy:false}],
     maps:"https://maps.google.com/?q=Creta+Costanera+Buenos+Aires" },
 
@@ -588,6 +594,7 @@ const venues = [
     lat:-34.5572, lng:-58.4198,
     music:["Electrónica","Techno","House"],
     ticketUrl:"https://www.passline.com/busqueda?q=the+bow+punta+carrasco",
+    ticketEventUrl:null, // ← actualizar semanalmente con el link del evento específico
     events:[{d:"28",m:"Feb",name:"The BOW Saturday",dj:"Electrónica internacional",hoy:true},{d:"07",m:"Mar",name:"Techno Night",dj:"DJ Internacional",hoy:false}],
     maps:"https://maps.google.com/?q=Punta+Carrasco+Av+Rafael+Obligado+y+Sarmiento+Buenos+Aires" },
 
@@ -599,6 +606,7 @@ const venues = [
     lat:-34.5575, lng:-58.4202,
     music:["House","Latina","Comercial"],
     ticketUrl:"https://www.passline.com/busqueda?q=bayside+buenos+aires",
+    ticketEventUrl:null, // ← actualizar semanalmente con el link del evento específico
     events:[{d:"28",m:"Feb",name:"Bayside Saturday",dj:"DJ Residente",hoy:true},{d:"07",m:"Mar",name:"International Night",dj:"DJ Internacional",hoy:false}],
     maps:"https://maps.google.com/?q=Bayside+Punta+Carrasco+Av+Rafael+Obligado+y+Sarmiento" },
 
@@ -610,6 +618,7 @@ const venues = [
     lat:-34.5612, lng:-58.4172,
     music:["Cachengue","Reggaetón","Comercial"],
     ticketUrl:"https://www.passline.com/busqueda?q=caramelo+costanera",
+    ticketEventUrl:null, // ← actualizar semanalmente con el link del evento específico
     events:[{d:"28",m:"Feb",name:"Caramelo Sábado",dj:"Noche de Cachengue",hoy:true},{d:"07",m:"Mar",name:"Especial Marzo",dj:"DJs invitados",hoy:false}],
     maps:"https://maps.google.com/?q=Av+Rafael+Obligado+185+Buenos+Aires" },
 
@@ -622,6 +631,7 @@ const venues = [
     lat:-34.5842, lng:-58.4330,
     music:["Hip-Hop","Reggaetón","Rock","Indie"],
     ticketUrl:"https://www.passline.com/productora/nicetotickets",
+    ticketEventUrl:null, // ← actualizar semanalmente con el link del evento específico
     events:[{d:"28",m:"Feb",name:"Club Hostel",dj:"Noche de reggaetón",hoy:true},{d:"07",m:"Mar",name:"Zizek Club",dj:"Electronic underground",hoy:false}],
     maps:"https://maps.google.com/?q=Niceto+Vega+5510+Palermo+Buenos+Aires" },
 
@@ -632,7 +642,8 @@ const venues = [
     desc:"Dos pistas, tres barras, dos VIPs. Pop, reggaetón y house. La fiesta internacional Hype todos los martes. Siempre explotada.",
     lat:-34.5882, lng:-58.4314,
     music:["Reggaetón","House","Pop"],
-    ticketUrl:"https://www.passline.com/venue/kika-club",
+    ticketUrl:"https://www.passline.com/busqueda?q=kika+club+palermo",
+    ticketEventUrl:null, // ← actualizar semanalmente con el link del evento específico
     events:[{d:"28",m:"Feb",name:"Hype by Kika",dj:"Reggaetón + Trap + Hip-hop",hoy:true},{d:"07",m:"Mar",name:"Kika Sábado",dj:"DJ Internacional",hoy:false}],
     maps:"https://maps.google.com/?q=Kika+Club+Honduras+5339+Buenos+Aires" },
 
@@ -644,6 +655,7 @@ const venues = [
     lat:-34.5807, lng:-58.4245,
     music:["Cachengue","Reggaetón","Pop"],
     ticketUrl:"https://www.passline.com/busqueda?q=vita+buenos+aires",
+    ticketEventUrl:null, // ← actualizar semanalmente con el link del evento específico
     events:[{d:"28",m:"Feb",name:"Vita Viernes",dj:"Cachengue & Reggaetón",hoy:true},{d:"07",m:"Mar",name:"La Cochera Sábado",dj:"DJ Residente",hoy:false}],
     maps:"https://maps.google.com/?q=Vita+Buenos+Aires+Av+Santa+Fe+4389" },
 
@@ -655,6 +667,7 @@ const venues = [
     lat:-34.5758, lng:-58.4220,
     music:["Cachengue","Reggaetón","House"],
     ticketUrl:"https://www.passline.com/eventos/cruza-polo-440094",
+    ticketEventUrl:null, // ← actualizar semanalmente con el link del evento específico
     events:[{d:"28",m:"Feb",name:"Cruza Polo Sábado",dj:"DJ Kessler",hoy:true},{d:"07",m:"Mar",name:"Noche de Cachengue",dj:"Sofi Castañón",hoy:false}],
     maps:"https://maps.google.com/?q=Cruza+Polo+Av+del+Libertador+4100+Buenos+Aires" },
 
@@ -666,6 +679,7 @@ const venues = [
     lat:-34.5893, lng:-58.4279,
     music:["House","Cachengue","Reggaetón"],
     ticketUrl:null,
+    ticketEventUrl:null,
     events:[{d:"07",m:"Mar",name:"Misión Viernes",dj:"House + Cachengue",hoy:false}],
     maps:"https://maps.google.com/?q=Godoy+Cruz+1715+Palermo+Buenos+Aires" },
 
@@ -677,6 +691,7 @@ const venues = [
     lat:-34.5930, lng:-58.4372,
     music:["Reggaetón","Pop","House"],
     ticketUrl:"https://www.passline.com/busqueda?q=ink+buenos+aires",
+    ticketEventUrl:null, // ← actualizar semanalmente con el link del evento específico
     events:[{d:"28",m:"Feb",name:"INK Sábado",dj:"Pop & Reggaetón",hoy:true},{d:"07",m:"Mar",name:"Koonga Viernes",dj:"House + Latina",hoy:false}],
     maps:"https://maps.google.com/?q=Juan+B+Justo+1574+Palermo+Buenos+Aires" },
 
@@ -688,6 +703,7 @@ const venues = [
     lat:-34.5955, lng:-58.4362,
     music:["Pop","Latino","Cachengue"],
     ticketUrl:"https://www.passline.com/busqueda?q=club+araoz",
+    ticketEventUrl:null, // ← actualizar semanalmente con el link del evento específico
     events:[{d:"28",m:"Feb",name:"Club Araoz Sábado",dj:"Pop & Latino",hoy:true}],
     maps:"https://maps.google.com/?q=Araoz+2424+Palermo+Buenos+Aires" },
 
@@ -698,7 +714,8 @@ const venues = [
     desc:"La disco más inclusiva y vibrante. Dos zonas: reggaetón y electrónica. Shows, DJs en vivo y patio de fumadores. Ambiente de 10.",
     lat:-34.5905, lng:-58.3980,
     music:["Reggaetón","Electrónica","Pop"],
-    ticketUrl:"https://www.passline.com/busqueda?q=glam+disco+recoleta",
+    ticketUrl:"https://www.passline.com/busqueda?q=glam+disco",
+    ticketEventUrl:null, // ← actualizar semanalmente con el link del evento específico
     events:[{d:"28",m:"Feb",name:"Glam Sábado",dj:"Dos pistas activas",hoy:true},{d:"07",m:"Mar",name:"Fiesta Glam",dj:"Show + DJ",hoy:false}],
     maps:"https://maps.google.com/?q=Cabrera+3046+Recoleta+Buenos+Aires" },
 
@@ -710,7 +727,8 @@ const venues = [
     desc:"Techo de espejos y atmósfera única en Recoleta. Electrónica los viernes, música latina los miércoles y sábados. Entrada por selección.",
     lat:-34.5875, lng:-58.3932,
     music:["Techno","Afro House","Latino"],
-    ticketUrl:"https://www.passline.com/busqueda?q=afrika+club+recoleta",
+    ticketUrl:"https://www.passline.com/busqueda?q=afrika+club",
+    ticketEventUrl:null, // ← actualizar semanalmente con el link del evento específico
     events:[{d:"28",m:"Feb",name:"La Juanita Club",dj:"Groove & buenas energías",hoy:true},{d:"07",m:"Mar",name:"Electrónica Viernes",dj:"DJ Internacional",hoy:false}],
     maps:"https://maps.google.com/?q=Afrika+Club+Junin+1787+Buenos+Aires" },
 
@@ -723,6 +741,7 @@ const venues = [
     lat:-34.6108, lng:-58.3764,
     music:["Cachengue","Electrónica","Hip-Hop"],
     ticketUrl:"https://www.passline.com/productora/palacio-alsina",
+    ticketEventUrl:null, // ← actualizar semanalmente con el link del evento específico
     events:[{d:"28",m:"Feb",name:"Palacio Presenta",dj:"Cachengue & Electrónica",hoy:true},{d:"07",m:"Mar",name:"Viernes de Palacio",dj:"DJ Residente",hoy:false}],
     maps:"https://maps.google.com/?q=Palacio+Alsina+Adolfo+Alsina+940+Buenos+Aires" },
 
@@ -734,6 +753,7 @@ const venues = [
     lat:-34.6017, lng:-58.3751,
     music:["Techno","House","Electrónica"],
     ticketUrl:"https://www.passline.com/productora/bahrein",
+    ticketEventUrl:null, // ← actualizar semanalmente con el link del evento específico
     events:[{d:"28",m:"Feb",name:"Bahrein Sábado",dj:"Techno Night",hoy:true},{d:"07",m:"Mar",name:"Viernes Electrónico",dj:"DJs internacionales",hoy:false}],
     maps:"https://maps.google.com/?q=Lavalle+345+Microcentro+Buenos+Aires" },
 
@@ -744,7 +764,8 @@ const venues = [
     desc:"27 años de historia. El boliche dark y alternativo del centro porteño. Dos pistas: techno/house y pop/rock de los 80/90. Sin pretensiones.",
     lat:-34.6082, lng:-58.3754,
     music:["Techno","80s/90s","Rock"],
-    ticketUrl:"https://www.passline.com/busqueda?q=requiem+club+buenos+aires",
+    ticketUrl:"https://www.passline.com/busqueda?q=requiem+club",
+    ticketEventUrl:null, // ← actualizar semanalmente con el link del evento específico
     events:[{d:"28",m:"Feb",name:"Fiesta Bardo",dj:"Dubstep & Psytrance",hoy:true},{d:"07",m:"Mar",name:"Noche Oscura",dj:"Depeche Mode Night",hoy:false}],
     maps:"https://maps.google.com/?q=Av+de+Mayo+948+Buenos+Aires" },
 
@@ -755,7 +776,8 @@ const venues = [
     desc:"El boliche universitario por excelencia. Barra al costo, espacio para 1.372 personas, cachengue y reggaetón. Viernes explota siempre.",
     lat:-34.6045, lng:-58.3837,
     music:["Cachengue","Reggaetón","Electrónica"],
-    ticketUrl:"https://www.passline.com/busqueda?q=goa+la+france",
+    ticketUrl:"https://www.passline.com/busqueda?q=goa+la+france+buenos+aires",
+    ticketEventUrl:null, // ← actualizar semanalmente con el link del evento específico
     events:[{d:"28",m:"Feb",name:"Goa Sábado",dj:"Cachengue & Pop",hoy:true},{d:"07",m:"Mar",name:"Mystique",dj:"After Office",hoy:false}],
     maps:"https://maps.google.com/?q=Sarmiento+1662+Buenos+Aires" },
 
@@ -766,7 +788,8 @@ const venues = [
     desc:"Tres pisos, cinco barras y una pista de baile legendaria. RKT, reggaetón y electrónica. Punto de encuentro de turistas y locales.",
     lat:-34.6148, lng:-58.3728,
     music:["RKT","Reggaetón","Electrónica"],
-    ticketUrl:"https://www.passline.com/busqueda?q=club+museum+san+telmo",
+    ticketUrl:"https://www.passline.com/busqueda?q=museum+san+telmo",
+    ticketEventUrl:null, // ← actualizar semanalmente con el link del evento específico
     events:[{d:"28",m:"Feb",name:"Museum Sábado",dj:"RKT Night",hoy:true},{d:"07",m:"Mar",name:"Fiesta Internacional",dj:"DJs invitados",hoy:false}],
     maps:"https://maps.google.com/?q=Club+Museum+Peru+535+San+Telmo+Buenos+Aires" },
 
@@ -779,6 +802,7 @@ const venues = [
     lat:-34.5875, lng:-58.4268,
     music:["House","Pop","Latina"],
     ticketUrl:null,
+    ticketEventUrl:null,
     events:[{d:"28",m:"Feb",name:"Noche de Uptown",dj:"House + Latina",hoy:true},{d:"07",m:"Mar",name:"Viernes NYC",dj:"DJ Residente",hoy:false}],
     maps:"https://maps.google.com/?q=Uptown+BA+Arevalo+2030+Buenos+Aires" },
 
@@ -790,6 +814,7 @@ const venues = [
     lat:-34.5938, lng:-58.3778,
     music:["Jazz","Electrónica suave","Deep House"],
     ticketUrl:null,
+    ticketEventUrl:null,
     events:[{d:"28",m:"Feb",name:"Bar Atlántico",dj:"Jazz en vivo",hoy:false}],
     maps:"https://maps.google.com/?q=Floreria+Atlantico+Arroyo+872+Buenos+Aires" },
 
@@ -801,6 +826,7 @@ const venues = [
     lat:-34.5953, lng:-58.4328,
     music:["Jazz","Swing","Blues"],
     ticketUrl:null,
+    ticketEventUrl:null,
     events:[{d:"28",m:"Feb",name:"Frank's Friday",dj:"Jazz en vivo",hoy:false}],
     maps:"https://maps.google.com/?q=Franks+Bar+Arevalo+1445+Buenos+Aires" },
 
@@ -812,6 +838,7 @@ const venues = [
     lat:-34.5940, lng:-58.4352,
     music:["Deep House","Funk","Soul"],
     ticketUrl:null,
+    ticketEventUrl:null,
     events:[{d:"28",m:"Feb",name:"Bar 878 Night",dj:"DJ selección",hoy:false}],
     maps:"https://maps.google.com/?q=Bar+878+Thames+878+Villa+Crespo+Buenos+Aires" },
 
@@ -823,6 +850,7 @@ const venues = [
     lat:-34.5718, lng:-58.4195,
     music:["Deep House","Organic House","Afro"],
     ticketUrl:null,
+    ticketEventUrl:null,
     events:[{d:"28",m:"Feb",name:"Bagatelle Night",dj:"Afro House",hoy:true}],
     maps:"https://maps.google.com/?q=Bagatelle+Buenos+Aires+Hipodromo+Palermo" },
 
@@ -834,6 +862,7 @@ const venues = [
     lat:-34.5888, lng:-58.4290,
     music:["Jazz","Soul","Funk"],
     ticketUrl:null,
+    ticketEventUrl:null,
     events:[{d:"07",m:"Mar",name:"Jazz Friday",dj:"Jazz en vivo",hoy:false}],
     maps:"https://maps.google.com/?q=Godoy+Cruz+1875+Palermo+Buenos+Aires" },
 
@@ -845,6 +874,7 @@ const venues = [
     lat:-34.5862, lng:-58.4308,
     music:["Rock","Indie","House"],
     ticketUrl:null,
+    ticketEventUrl:null,
     events:[{d:"28",m:"Feb",name:"Noche en Tres Monos",dj:"Selección de autor",hoy:false}],
     maps:"https://maps.google.com/?q=Guatemala+4899+Palermo+Buenos+Aires" },
 
@@ -856,6 +886,7 @@ const venues = [
     lat:-34.5910, lng:-58.4347,
     music:["Deep House","Indie","Electrónica suave"],
     ticketUrl:null,
+    ticketEventUrl:null,
     events:[{d:"28",m:"Feb",name:"BrukBar Night",dj:"Cócteles & Música",hoy:false}],
     maps:"https://maps.google.com/?q=Fray+Justo+Santa+Maria+de+Oro+1801+Palermo+Buenos+Aires" },
 
@@ -867,6 +898,7 @@ const venues = [
     lat:-34.5913, lng:-58.4302,
     music:["Ambiente","Jazz","Blues"],
     ticketUrl:null,
+    ticketEventUrl:null,
     events:[{d:"28",m:"Feb",name:"The Hole Night",dj:"Ambiente Alcatraz",hoy:false}],
     maps:"https://maps.google.com/?q=Armenia+1743+Palermo+Buenos+Aires" },
 
@@ -878,6 +910,7 @@ const venues = [
     lat:-34.5895, lng:-58.4286,
     music:["Rock","Indie","Alternative"],
     ticketUrl:null,
+    ticketEventUrl:null,
     events:[{d:"28",m:"Feb",name:"Rock Night",dj:"Rock en vivo",hoy:false}],
     maps:"https://maps.google.com/?q=Godoy+Cruz+1631+Palermo+Buenos+Aires" },
 
@@ -889,6 +922,7 @@ const venues = [
     lat:-34.5842, lng:-58.4278,
     music:["Deep House","Ambient","Jazz"],
     ticketUrl:null,
+    ticketEventUrl:null,
     events:[{d:"28",m:"Feb",name:"Victoria Brown Night",dj:"Cócteles frescos",hoy:false}],
     maps:"https://maps.google.com/?q=Costa+Rica+4827+Palermo+Buenos+Aires" },
 
@@ -900,6 +934,7 @@ const venues = [
     lat:-34.5840, lng:-58.4325,
     music:["Rock","Pop","Indie"],
     ticketUrl:null,
+    ticketEventUrl:null,
     events:[{d:"28",m:"Feb",name:"La Calle Friday",dj:"Rock & Indie",hoy:false}],
     maps:"https://maps.google.com/?q=Niceto+Vega+4942+Palermo+Buenos+Aires" },
 
@@ -911,6 +946,7 @@ const venues = [
     lat:-34.5912, lng:-58.4348,
     music:["Indie","Rock","Jazz"],
     ticketUrl:null,
+    ticketEventUrl:null,
     events:[{d:"28",m:"Feb",name:"Feria Antidomingo",dj:"Cerveza + Arte",hoy:false}],
     maps:"https://maps.google.com/?q=Gorriti+4295+Palermo+Buenos+Aires" },
 
@@ -922,6 +958,7 @@ const venues = [
     lat:-34.5908, lng:-58.4258,
     music:["Indie","Jazz","Electrónica suave"],
     ticketUrl:null,
+    ticketEventUrl:null,
     events:[{d:"28",m:"Feb",name:"Dársena Night",dj:"Piano Bar",hoy:false}],
     maps:"https://maps.google.com/?q=Cabrera+4354+Palermo+Buenos+Aires" },
 
@@ -933,6 +970,7 @@ const venues = [
     lat:-34.6182, lng:-58.3728,
     music:["Rock","Blues","Indie"],
     ticketUrl:null,
+    ticketEventUrl:null,
     events:[{d:"28",m:"Feb",name:"Noche en La Puerta Roja",dj:"Blues en vivo",hoy:false}],
     maps:"https://maps.google.com/?q=Chacabuco+733+San+Telmo+Buenos+Aires" },
 
@@ -944,6 +982,7 @@ const venues = [
     lat:-34.6168, lng:-58.3752,
     music:["Ambient","Electronic","Indie"],
     ticketUrl:null,
+    ticketEventUrl:null,
     events:[{d:"28",m:"Feb",name:"Noche Clásica",dj:"Selección de autor",hoy:false}],
     maps:"https://maps.google.com/?q=Juan+de+Garay+500+San+Telmo+Buenos+Aires" },
 
@@ -956,7 +995,8 @@ const venues = [
     desc:"El boliche más exclusivo de Playa Grande. Frente al mar, ambiente premium, cachengue y pop urbano. Reconvertido en el local más top de MDQ. Dress code exigente.",
     lat:-38.0200, lng:-57.5392,
     music:["Cachengue","Pop","Reggaetón"],
-    ticketUrl:"https://www.passline.com/busqueda?q=bruto+playa+grande",
+    ticketUrl:"https://www.passline.com/busqueda?q=bruto+mar+del+plata",
+    ticketEventUrl:null, // ← actualizar semanalmente con el link del evento específico
     events:[{d:"01",m:"Ene",name:"Bruto Summer",dj:"Top DJs de temporada",hoy:false},{d:"15",m:"Ene",name:"Bruto Sábado",dj:"Cachengue & Pop",hoy:false}],
     maps:"https://maps.google.com/?q=Bruto+Playa+Grande+Mar+del+Plata" },
 
@@ -968,7 +1008,8 @@ const venues = [
     desc:"El festival de música electrónica más importante del verano argentino. Capacidad para 9.000 personas frente al mar. DJs internacionales: Solomun, Marco Carola, Ricardo Villalobos. +300.000 personas por temporada.",
     lat:-38.0950, lng:-57.5620,
     music:["Techno","House","Electrónica"],
-    ticketUrl:"https://www.passline.com/busqueda?q=mute+mar+del+plata",
+    ticketUrl:"https://www.passline.com/productoras/66885-mute-mar-del-plata",
+    ticketEventUrl:null, // ← actualizar semanalmente con el link del evento específico
     events:[{d:"18",m:"Ene",name:"Solomun",dj:"Techno / House",hoy:false},{d:"25",m:"Ene",name:"Marco Carola",dj:"Techno",hoy:false}],
     maps:"https://maps.google.com/?q=Mute+Club+Mar+del+Plata+Ruta+11+Alfar" },
 
@@ -980,7 +1021,8 @@ const venues = [
     desc:"Histórico boliche de verano en el complejo Normandina de Playa Grande. Ambiente universitario y juvenil, cachengue y reggaetón. Clásico de temporada para los que van a Mardel.",
     lat:-38.0150, lng:-57.5350,
     music:["Cachengue","Reggaetón","Pop"],
-    ticketUrl:"https://www.passline.com/busqueda?q=anana+normandina+mar+del+plata",
+    ticketUrl:"https://www.passline.com/busqueda?q=anana+mar+del+plata",
+    ticketEventUrl:null, // ← actualizar semanalmente con el link del evento específico
     events:[{d:"10",m:"Ene",name:"Ananá Sábado",dj:"Cachengue Night",hoy:false},{d:"17",m:"Ene",name:"Ananá Viernes",dj:"DJ Residente",hoy:false}],
     maps:"https://maps.google.com/?q=Complejo+Normandina+Playa+Grande+Mar+del+Plata" },
 
@@ -993,6 +1035,7 @@ const venues = [
     lat:-38.0195, lng:-57.5395,
     music:["Electrónica","Cachengue","House"],
     ticketUrl:"https://www.passline.com/busqueda?q=quba+mar+del+plata",
+    ticketEventUrl:null, // ← actualizar semanalmente con el link del evento específico
     events:[{d:"11",m:"Ene",name:"Quba Sábado",dj:"Electronic + Cachengue",hoy:false}],
     maps:"https://maps.google.com/?q=Quba+Playa+Grande+Mar+del+Plata" },
 
@@ -1004,7 +1047,8 @@ const venues = [
     desc:"El after beach de los famosos. Boliche frente al mar con terraza a la escollera. Empieza con el atardecer y sigue hasta el amanecer. Punto de encuentro de streamers, influencers y el ambiente joven de MDQ.",
     lat:-38.0165, lng:-57.5370,
     music:["Cachengue","Dance","Latino"],
-    ticketUrl:"https://www.passline.com/busqueda?q=samsara+beach+mar+del+plata",
+    ticketUrl:"https://www.passline.com/busqueda?q=samsara+mar+del+plata",
+    ticketEventUrl:null, // ← actualizar semanalmente con el link del evento específico
     events:[{d:"12",m:"Ene",name:"Sunset Party",dj:"After Beach DJs",hoy:false},{d:"19",m:"Ene",name:"Samsara Sábado",dj:"Cachengue Night",hoy:false}],
     maps:"https://maps.google.com/?q=Samsara+Beach+Paseo+Victoria+Ocampo+Mar+del+Plata" },
 
@@ -1017,6 +1061,7 @@ const venues = [
     lat:-38.0180, lng:-57.5360,
     music:["Electrónica","Rock","Reggae"],
     ticketUrl:"https://www.passline.com/busqueda?q=mr+jones+mar+del+plata",
+    ticketEventUrl:null, // ← actualizar semanalmente con el link del evento específico
     events:[{d:"11",m:"Ene",name:"Mr. Jones Night",dj:"Electronic + Rock",hoy:false}],
     maps:"https://maps.google.com/?q=Mr+Jones+Balneario+8+Playa+Grande+Mar+del+Plata" },
 
@@ -1029,7 +1074,8 @@ const venues = [
     desc:"El boliche referente del Conurbano Oeste. Masivo y exclusivo a la vez, con estricto control de ingreso y QR obligatorio. Pista de baile enorme, ambiente vibrante y la joda del oeste que explota los sábados.",
     lat:-34.6485, lng:-58.5620,
     music:["Cachengue","Reggaetón","Electrónica"],
-    ticketUrl:"https://www.passline.com/busqueda?q=mata+club+ramos+mejia",
+    ticketUrl:"https://www.passline.com/busqueda?q=mata+club+zona+oeste",
+    ticketEventUrl:null, // ← actualizar semanalmente con el link del evento específico
     events:[{d:"28",m:"Feb",name:"Mata Club #45",dj:"QR hasta 2:30 AM",hoy:true},{d:"07",m:"Mar",name:"Mata Club #46",dj:"DJ Residente",hoy:false}],
     maps:"https://maps.google.com/?q=Av+Rivadavia+13636+Ramos+Mejia" },
 
@@ -1042,6 +1088,7 @@ const venues = [
     lat:-34.6280, lng:-58.6350,
     music:["Cachengue","Reggaetón","Pop"],
     ticketUrl:"https://www.passline.com/productora/1265241-parque-cervecero-oeste-sa",
+    ticketEventUrl:null, // ← actualizar semanalmente con el link del evento específico
     events:[{d:"28",m:"Feb",name:"Roca Bruja Sábado",dj:"Cachengue Night",hoy:true},{d:"07",m:"Mar",name:"Roca Bruja Viernes",dj:"+18 DJ Residente",hoy:false}],
     maps:"https://maps.google.com/?q=Colectora+Acceso+Oeste+5600+Villa+Tesei+Hurlingham" },
 
@@ -1055,6 +1102,7 @@ const venues = [
     lat:-34.5630, lng:-58.4590,
     music:["Electrónica","Cachengue","Reggaetón"],
     ticketUrl:"https://www.passline.com/busqueda?q=velvet+belgrano",
+    ticketEventUrl:null, // ← actualizar semanalmente con el link del evento específico
     events:[{d:"28",m:"Feb",name:"Velvet Viernes",dj:"House + Cachengue",hoy:true},{d:"07",m:"Mar",name:"Velvet Sábado",dj:"DJ Internacional",hoy:false}],
     maps:"https://maps.google.com/?q=Av+Cabildo+3245+Belgrano+Buenos+Aires" },
 ];
@@ -1382,8 +1430,8 @@ function openModal(id) {
 
       ${v.ticketUrl ? `<div class="msec">
         <div class="msec-ttl">Entradas</div>
-        <button class="btn-ticket" onclick="openMp(${v.id})">🎟 Sacar Entrada · Desde $${(v.ticketPrice||0).toLocaleString('es-AR')}</button>
-        <div class="ticket-note">🔒 Pago seguro vía MercadoPago · Entrada digital al instante</div>
+        <a class="btn-ticket" href="${v.ticketEventUrl || v.ticketUrl}" target="_blank" rel="noopener">🎟 ${v.ticketEventUrl ? "Comprar entrada · " + (v.events.find(e=>e.hoy)?.name || "Evento esta semana") : "Ver entradas en Passline"}</a>
+        <div class="ticket-note">🔒 Serás redirigido a Passline · Comprá tu entrada oficial ahí</div>
       </div>` : ''}
       <div class="msec" id="voters-section-${v.id}" style="display:none">
         <div class="msec-ttl">Van esta noche 🔥</div>
