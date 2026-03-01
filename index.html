@@ -1990,6 +1990,27 @@ function openModal(id) {
   vBtn.className = 'vote-btn-big' + (on?' on':'');
   vBtn.innerHTML = '<span class="vb-icon">'+(on?'✓':'🙋')+'</span><span class="vb-n">'+getV(v.id)+'</span><span class="vb-lbl">'+(on?'Tu voto':'Voy aquí')+'</span>';
   vBtn.onclick = function(e){ castVote(e, v.id); };
+
+  // Fav button
+  var favBtn = document.createElement('button');
+  favBtn.id = 'mfav-' + v.id;
+  favBtn.className = 'fav-btn' + (isFav(v.id)?' on':'');
+  favBtn.textContent = isFav(v.id) ? '❤️ Guardado' : '🤍 Guardar';
+  favBtn.onclick = function(e){
+    e.stopPropagation();
+    if (favs.has(v.id)) { favs.delete(v.id); showToast('Eliminado de favoritos'); }
+    else { favs.add(v.id); showToast('❤️ Guardado en favoritos'); }
+    saveFavs();
+    favBtn.className = 'fav-btn' + (isFav(v.id)?' on':'');
+    favBtn.textContent = isFav(v.id) ? '❤️ Guardado' : '🤍 Guardar';
+    renderFavs();
+  };
+
+  var btnRow = document.createElement('div');
+  btnRow.style.cssText = 'display:flex;gap:8px;margin-top:12px;';
+  btnRow.appendChild(favBtn);
+  vsi.appendChild(btnRow);
+
   vs.appendChild(vBtn);
   body.appendChild(vs);
 
