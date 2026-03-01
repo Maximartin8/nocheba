@@ -2203,8 +2203,18 @@ async function doRegister() {
   if (!email || !email.includes('@')) { errEl.textContent='Email inválido.'; errEl.classList.add('on'); return; }
   if (pass.length < 6) { errEl.textContent='La contraseña debe tener al menos 6 caracteres.'; errEl.classList.add('on'); return; }
 
-  const users = await loadUsers();
-  if (users[email]) { errEl.textContent='Ya existe una cuenta con ese email.'; errEl.classList.add('on'); return; }
+  // Check Supabase directly (not just local cache) to catch Google accounts too
+  const existing = await sbGet('users', 'email=eq.' + encodeURIComponent(email));
+  if (existing && existing.length) {
+    const acc = existing[0];
+    if (acc.pass_hash === 'google_oauth') {
+      errEl.textContent = 'Este email ya tiene cuenta con Google. Usá "Continuar con Google".';
+    } else {
+      errEl.textContent = 'Ya existe una cuenta con ese email.';
+    }
+    errEl.classList.add('on');
+    return;
+  }
 
   const user = {
     id: Date.now().toString(36),
@@ -2248,6 +2258,7 @@ async function doLogin() {
   }
 
   const storedHash = user.pass_hash || user.passHash;
+  if (storedHash === 'google_oauth') { errEl.textContent='Esta cuenta usa Google. Usá "Continuar con Google".'; errEl.classList.add('on'); return; }
   if (storedHash !== hashPass(pass)) { errEl.textContent='Contraseña incorrecta.'; errEl.classList.add('on'); return; }
 
   currentUser = { ...user, passHash: storedHash, joinDate: user.join_date || user.joinDate };
