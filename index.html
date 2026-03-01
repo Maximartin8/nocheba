@@ -1952,36 +1952,42 @@ function closeModal() { document.getElementById('modalOv').classList.remove('on'
 
 // ── VOTERS LIST MODAL ──
 async function openVotersList(venueId) {
-  const v = venues.find(x => x.id === venueId);
+  const v = venues.find(function(x){ return x.id === venueId; });
   if (!v) return;
   const voters = await getVotersForVenue(venueId);
   const count = getV(venueId);
-
   const ov = document.getElementById('votersListOv');
   const inner = document.getElementById('votersListInner');
 
-  inner.innerHTML = `
-    <div style="padding:20px 20px 8px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);">
-      <div>
-        <div style="font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:4px">${v.zone} · ${v.emoji}</div>
-        <div style="font-size:18px;font-weight:700;color:var(--white)">${v.name}</div>
-        <div style="font-size:11px;color:var(--gold);margin-top:2px">${count} persona${count!==1?'s':''} van esta semana</div>
-      </div>
-      <button onclick="closeVotersList()" style="background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer;padding:4px">✕</button>
-    </div>
-    <div style="overflow-y:auto;flex:1;padding:16px;">
-      ${voters.length ? voters.map(u => {
-        const av = u.avatar ? \`<img src="\${u.avatar}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">\` : u.name.charAt(0).toUpperCase();
-        const ig = u.instagram ? \`<a href="https://instagram.com/\${u.instagram}" target="_blank" style="color:var(--gold);font-size:11px;text-decoration:none;">@\${u.instagram}</a>\` : \`<span style="color:var(--muted);font-size:11px">Sin Instagram</span>\`;
-        return \`<div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);">
-          <div style="width:40px;height:40px;border-radius:50%;background:var(--gold);color:var(--ink);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;overflow:hidden;flex-shrink:0;">\${av}</div>
-          <div style="flex:1;">
-            <div style="font-size:13px;font-weight:600;color:var(--white);margin-bottom:3px">\${u.name}</div>
-            \${ig}
-          </div>
-        </div>\`;
-      }).join('') : '<div style="text-align:center;color:var(--muted);padding:40px 0;font-size:13px;">Nadie votó este lugar todavía.</div>'}
-    </div>`;
+  let votersHtml = '';
+  if (!voters.length) {
+    votersHtml = '<div style="text-align:center;color:var(--muted);padding:40px 0;font-size:13px;">Nadie votó este lugar todavía.</div>';
+  } else {
+    voters.forEach(function(u) {
+      const av = u.avatar
+        ? '<img src="' + u.avatar + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%">'
+        : u.name.charAt(0).toUpperCase();
+      const ig = u.instagram
+        ? '<a href="https://instagram.com/' + u.instagram + '" target="_blank" style="color:var(--gold);font-size:11px;text-decoration:none;">@' + u.instagram + '</a>'
+        : '<span style="color:var(--muted);font-size:11px">Sin Instagram</span>';
+      votersHtml += '<div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);">'
+        + '<div style="width:40px;height:40px;border-radius:50%;background:var(--gold);color:var(--ink);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;overflow:hidden;flex-shrink:0;">' + av + '</div>'
+        + '<div style="flex:1;">'
+        + '<div style="font-size:13px;font-weight:600;color:var(--white);margin-bottom:3px">' + u.name + '</div>'
+        + ig
+        + '</div></div>';
+    });
+  }
+
+  inner.innerHTML = '<div style="padding:20px 20px 8px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);">'
+    + '<div>'
+    + '<div style="font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:4px">' + v.zone + ' · ' + v.emoji + '</div>'
+    + '<div style="font-size:18px;font-weight:700;color:var(--white)">' + v.name + '</div>'
+    + '<div style="font-size:11px;color:var(--gold);margin-top:2px">' + count + ' persona' + (count !== 1 ? 's' : '') + ' van esta semana</div>'
+    + '</div>'
+    + '<button onclick="closeVotersList()" style="background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer;padding:4px">✕</button>'
+    + '</div>'
+    + '<div style="overflow-y:auto;flex:1;padding:16px;">' + votersHtml + '</div>';
 
   ov.classList.add('on');
   document.body.style.overflow = 'hidden';
