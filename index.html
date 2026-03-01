@@ -483,7 +483,8 @@ header{position:sticky;top:0;z-index:200;height:56px;display:flex;align-items:ce
 
   <!-- SEARCH EVENTS -->
   <div style="padding:0 16px 4px">
-    <input id="ev-search" type="text" placeholder="🔍 Buscar evento o artista..." oninput="filterEventsSearch(this.value)" autocomplete="new-password" autocorrect="off" spellcheck="false" style="width:100%;padding:11px 16px;background:var(--ink3);border:1px solid var(--line2);color:var(--white);font-family:'Montserrat',sans-serif;font-size:12px;letter-spacing:1px;outline:none;box-sizing:border-box;">
+    <input type="text" style="display:none" aria-hidden="true">
+<input id="ev-search" type="text" placeholder="🔍 Buscar evento o artista..." oninput="filterEventsSearch(this.value)" onfocus="this.value=''" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" readonly onfocus="this.removeAttribute('readonly');this.value=''" style="width:100%;padding:11px 16px;background:var(--ink3);border:1px solid var(--line2);color:var(--white);font-family:'Montserrat',sans-serif;font-size:12px;letter-spacing:1px;outline:none;box-sizing:border-box;">
   </div>
 
   <!-- EVENTS GRID -->
@@ -524,7 +525,8 @@ header{position:sticky;top:0;z-index:200;height:56px;display:flex;align-items:ce
     </div>
   </div>
   <div style="padding:0 16px 12px">
-    <input id="search-input" type="text" placeholder="🔍 Buscar boliche o bar..." oninput="searchVenues(this.value)" autocomplete="new-password" autocorrect="off" spellcheck="false" style="width:100%;padding:12px 16px;background:var(--ink3);border:1px solid var(--line2);color:var(--white);font-family:'Montserrat',sans-serif;font-size:12px;letter-spacing:1px;outline:none;box-sizing:border-box;">
+    <input type="text" style="display:none" aria-hidden="true">
+<input id="search-input" type="text" placeholder="🔍 Buscar boliche o bar..." oninput="searchVenues(this.value)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" readonly onfocus="this.removeAttribute('readonly');this.value=''" style="width:100%;padding:12px 16px;background:var(--ink3);border:1px solid var(--line2);color:var(--white);font-family:'Montserrat',sans-serif;font-size:12px;letter-spacing:1px;outline:none;box-sizing:border-box;">
   </div>
   <div class="grid" id="grid"></div>
 </div>
@@ -2500,6 +2502,13 @@ async function sendChat() {
 // ── INIT ──
 async function init() {
   loadFavs();
+  // Clear any browser autofill on search fields
+  setTimeout(() => {
+    const s1 = document.getElementById('ev-search');
+    const s2 = document.getElementById('search-input');
+    if (s1) s1.value = '';
+    if (s2) s2.value = '';
+  }, 100);
   await handleOAuthCallback(); // Handle Google redirect
   await loadCurrentUser();
   await loadState();
