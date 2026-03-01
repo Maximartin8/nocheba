@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NOCHE BA</title>
+<title>Nightlife</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -250,6 +250,8 @@ header{position:sticky;top:0;z-index:200;height:56px;display:flex;align-items:ce
 .auth-div::before{left:0;}.auth-div::after{right:0;}
 .btn-guest-auth{width:100%;padding:13px;background:none;color:var(--muted);border:1px solid var(--line2);font-family:'Montserrat',sans-serif;font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;}
 .btn-guest-auth:hover{border-color:var(--pale);color:var(--pale);}
+.btn-google-auth{width:100%;padding:12px;background:#fff;color:#333;border:1px solid #ddd;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;}
+.btn-google-auth:hover{background:#f5f5f5;border-color:#bbb;}
 .auth-x{position:absolute;top:10px;right:12px;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;}
 .auth-err{font-size:11px;color:#e74c3c;margin-bottom:8px;padding:8px;background:rgba(231,76,60,.08);border:1px solid rgba(231,76,60,.2);display:none;}
 .auth-err.on{display:block;}
@@ -318,7 +320,7 @@ header{position:sticky;top:0;z-index:200;height:56px;display:flex;align-items:ce
 <body>
 
 <header>
-  <a class="logo" href="#">NOCHE<b>BA</b></a>
+  <a class="logo" href="#">NIGHT<b>LIFE</b></a>
   <div class="hdr-right" id="hdrRight">
     <button class="btn-sm" onclick="enterGuest()">Invitado</button>
     <button class="btn-sm gold" id="loginBtn" onclick="showAuth()">Entrar</button>
@@ -430,14 +432,16 @@ header{position:sticky;top:0;z-index:200;height:56px;display:flex;align-items:ce
       <div class="auth-sub">Ingresá con tu cuenta para votar con tu perfil.</div>
       <div class="auth-err" id="loginErr"></div>
       <div class="auth-field">
-        <label class="auth-label">Email</label>
-        <input class="auth-inp" id="loginEmail" type="email" placeholder="tu@email.com">
+        <label class="auth-label">Email o @instagram</label>
+        <input class="auth-inp" id="loginEmail" type="text" placeholder="tu@email.com o @tuusuario">
       </div>
       <div class="auth-field">
         <label class="auth-label">Contraseña</label>
         <input class="auth-inp" id="loginPass" type="password" placeholder="••••••••">
       </div>
       <button class="btn-auth" onclick="doLogin()">Iniciar Sesión</button>
+      <div class="auth-div">o</div>
+      <button class="btn-google-auth" onclick="doLoginGoogle()"><svg width="18" height="18" viewBox="0 0 48 48" style="margin-right:8px;vertical-align:middle"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.08 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.36-8.16 2.36-6.26 0-11.57-3.58-13.46-8.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>Continuar con Google</button>
       <div class="auth-div">o</div>
       <button class="btn-guest-auth" onclick="enterGuest()">Continuar como invitado</button>
     </div>
@@ -1516,16 +1520,29 @@ async function doRegister() {
 }
 
 async function doLogin() {
-  const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+  let identifier = document.getElementById('loginEmail').value.trim().toLowerCase();
   const pass = document.getElementById('loginPass').value;
   const errEl = document.getElementById('loginErr');
   errEl.classList.remove('on');
 
-  if (!email || !pass) { errEl.textContent='Completá todos los campos.'; errEl.classList.add('on'); return; }
+  if (!identifier || !pass) { errEl.textContent='Completá todos los campos.'; errEl.classList.add('on'); return; }
+
+  // Support login by @instagram
+  const isIg = identifier.startsWith('@') || (!identifier.includes('@') && !identifier.includes('.'));
+  const igHandle = identifier.replace(/^@/, '');
 
   const users = await loadUsers();
-  const user = users[email];
-  if (!user) { errEl.textContent='No existe una cuenta con ese email.'; errEl.classList.add('on'); return; }
+  let user = null;
+
+  if (isIg) {
+    // Find by instagram handle
+    user = Object.values(users).find(u => u.instagram && u.instagram.toLowerCase() === igHandle);
+    if (!user) { errEl.textContent='No existe una cuenta con ese @instagram.'; errEl.classList.add('on'); return; }
+  } else {
+    user = users[identifier];
+    if (!user) { errEl.textContent='No existe una cuenta con ese email.'; errEl.classList.add('on'); return; }
+  }
+
   const storedHash = user.pass_hash || user.passHash;
   if (storedHash !== hashPass(pass)) { errEl.textContent='Contraseña incorrecta.'; errEl.classList.add('on'); return; }
 
@@ -1535,6 +1552,11 @@ async function doLogin() {
   updateHeader();
   showToast('¡Hola de nuevo, ' + user.name + '! 👋');
   renderAll();
+}
+
+async function doLoginGoogle() {
+  // Will be enabled once Google OAuth is configured in Supabase
+  showToast('Google login próximamente 🚀');
 }
 
 function doLogout() {
@@ -1585,7 +1607,7 @@ function renderProfile() {
       ${igHtml}
       <div class="profile-stats">
         <div class="profile-stat"><b>${myVote!==null?1:0}</b>Voto activo</div>
-        <div class="profile-stat"><b>${new Date().getFullYear() - 2023}</b>años en NOCHE BA</div>
+        <div class="profile-stat"><b>${new Date().getFullYear() - 2023}</b>años en Nightlife</div>
       </div>
     </div>`;
 
