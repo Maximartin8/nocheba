@@ -442,7 +442,7 @@ header{position:sticky;top:0;z-index:200;height:56px;display:flex;align-items:ce
 .toast{position:fixed;bottom:68px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--ink3);border:1px solid var(--gold);color:var(--gold);font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;padding:10px 18px;opacity:0;transition:all .3s;z-index:800;white-space:nowrap;}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
 /* ── VOTERS LIST OVERLAY ── */
-.voters-list-ov{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1200;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;}
+.voters-list-ov{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1300;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;}
 .voters-list-ov.on{opacity:1;pointer-events:all;}
 .voters-list-panel{background:var(--ink2);width:100%;max-width:480px;max-height:70vh;border-top:1px solid var(--line);display:flex;flex-direction:column;transform:translateY(40px);transition:transform .3s cubic-bezier(.4,0,.2,1);}
 .voters-list-ov.on .voters-list-panel{transform:translateY(0);}
@@ -1523,10 +1523,10 @@ async function castVote(e, id) {
     await sbUpsert('user_votes', { user_id: currentUser.id, venue_id: id, updated_at: new Date().toISOString() });
   }
   await saveState();
-  // Invalidate voter cache for affected venues
+  // Invalidate voter cache (myVote already updated above)
   delete voterCache[id];
-  if (myVote !== null) delete voterCache[myVote];
-  renderAll();
+  // Re-render directly without reloading from Supabase (avoids race condition)
+  renderAllUI();
   refreshModalVote(id);
 }
 
@@ -2394,7 +2394,7 @@ function renderProfile() {
       ${igHtml}
       <div class="profile-stats">
         <div class="profile-stat"><b>${myVote!==null?1:0}</b>Voto activo</div>
-        <div class="profile-stat"><b>${u.joinDate ? new Date().getFullYear() - new Date(u.joinDate).getFullYear() || "< 1" : "< 1"}</b>años en Nocturne</div>
+        <div class="profile-stat"><b>${u.joinDate ? (new Date().getFullYear() - new Date(u.joinDate).getFullYear() || 1) : 1}</b>años en Nocturne</div>
       </div>
     </div>`;
 
@@ -2527,6 +2527,14 @@ async function saveVoterToVenue(venueId, remove=false) {
 }
 
 // ── RENDER ALL ──
+// renderAllUI — re-renders everything using current in-memory state (no Supabase reload)
+function renderAllUI() {
+  renderEvents();
+  renderVenues();
+  renderRanking();
+  renderFavs();
+}
+
 function renderAll() {
   renderEvents();
   renderDir(currentFilter);
