@@ -436,7 +436,7 @@ header{position:sticky;top:0;z-index:200;height:56px;display:flex;align-items:ce
       </div>
     </a>
 
-    <a href="mailto:mynightlifearg@gmail.com" style="display:flex;align-items:center;gap:14px;padding:20px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--white)">
+    <a href="/cdn-cgi/l/email-protection#b1dcc8dfd8d6d9c5ddd8d7d4d0c3d6f1d6dcd0d8dd9fd2dedc" style="display:flex;align-items:center;gap:14px;padding:20px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--white)">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold2)" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
       <div>
         <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Email</div>
@@ -447,7 +447,7 @@ header{position:sticky;top:0;z-index:200;height:56px;display:flex;align-items:ce
     <div style="margin-top:48px;padding-top:32px;border-top:1px solid var(--line)">
       <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px">¿Querés aparecer en Nightlife?</div>
       <div style="font-size:13px;color:var(--pale);line-height:1.7;margin-bottom:24px">Si tenés un boliche, bar o evento y querés sumarte a la plataforma, escribinos.</div>
-      <a href="mailto:mynightlifearg@gmail.com" style="display:inline-block;border:1px solid var(--gold);color:var(--gold);font-family:'Montserrat',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:12px 24px;text-decoration:none;transition:all .2s">Escribir →</a>
+      <a href="/cdn-cgi/l/email-protection#28455146414f405c44414e4d495a4f684f45494144064b4745" style="display:inline-block;border:1px solid var(--gold);color:var(--gold);font-family:'Montserrat',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:12px 24px;text-decoration:none;transition:all .2s">Escribir →</a>
     </div>
   </div>
 </div>
@@ -572,7 +572,7 @@ header{position:sticky;top:0;z-index:200;height:56px;display:flex;align-items:ce
 
 <div class="toast" id="toast"></div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ─────────────────────────────────────────────
 // DATA — coordenadas verificadas
 // ─────────────────────────────────────────────
@@ -1744,8 +1744,55 @@ async function doLogin() {
 }
 
 async function doLoginGoogle() {
-  // Will be enabled once Google OAuth is configured in Supabase
-  showToast('Google login próximamente 🚀');
+  try {
+    showToast('Abriendo Google...');
+    const redirectTo = window.location.origin + window.location.pathname;
+    window.location.href = SUPABASE_URL + '/auth/v1/authorize?provider=google&redirect_to=' + encodeURIComponent(redirectTo);
+  } catch(e) {
+    showToast('Error al conectar con Google');
+  }
+}
+
+// Handle OAuth callback (Google redirects back with tokens in URL hash)
+async function handleOAuthCallback() {
+  const hash = window.location.hash;
+  if (!hash.includes('access_token')) return;
+  const params = new URLSearchParams(hash.slice(1));
+  const accessToken = params.get('access_token');
+  const refreshToken = params.get('refresh_token');
+  if (!accessToken) return;
+  // Get user info from Supabase
+  try {
+    const res = await fetch(SUPABASE_URL + '/auth/v1/user', {
+      headers: { 'Authorization': 'Bearer ' + accessToken, 'apikey': SUPABASE_KEY }
+    });
+    const userData = await res.json();
+    if (userData.email) {
+      // Check if user exists in our users table, if not create
+      const existingRes = await sbGet('users', '?id=eq.' + userData.id);
+      const existing = existingRes ? await existingRes.json() : [];
+      if (!existing.length) {
+        await sbUpsert('users', {
+          id: userData.id,
+          email: userData.email,
+          name: userData.user_metadata?.full_name || userData.email.split('@')[0],
+          pass_hash: 'google_oauth',
+          avatar: userData.user_metadata?.avatar_url || null,
+          instagram: null,
+          join_date: new Date().toISOString().split('T')[0]
+        });
+      }
+      const userRow = existing[0] || { id: userData.id, email: userData.email, name: userData.user_metadata?.full_name || userData.email.split('@')[0], avatar: userData.user_metadata?.avatar_url || null };
+      currentUser = { id: userRow.id, name: userRow.name, email: userRow.email, avatar: userRow.avatar, instagram: userRow.instagram, joinDate: userRow.join_date };
+      localStorage.setItem('nocheba_session', JSON.stringify(currentUser));
+      window.history.replaceState({}, document.title, window.location.pathname);
+      updateHeader();
+      closeAuth();
+      showToast('¡Bienvenido ' + currentUser.name.split(' ')[0] + '! 🎉');
+    }
+  } catch(e) {
+    console.error('OAuth callback error:', e);
+  }
 }
 
 function doLogout() {
@@ -1937,6 +1984,7 @@ function renderAll() {
 // ── INIT ──
 async function init() {
   loadFavs();
+  await handleOAuthCallback(); // Handle Google redirect
   await loadCurrentUser();
   await loadState();
   updateHeader();
@@ -1973,5 +2021,4 @@ function showInstallBanner() {
       </div>
       <div style="display:flex;gap:8px">
         <button onclick="document.getElementById('install-banner').remove();deferredPrompt=null" style="background:none;border:1px solid #352f42;color:#8a80a0;padding:8px 12px;font-size:10px;font-family:'Montserrat',sans-serif;cursor:pointer">Ahora no</button>
-        <button onclick="installApp()" style="background:linear-gradient(135deg,#7c3aed,#c4527a);border:none;color:#fff;padding:8px 16px;font-size:10px;font-weight:700;letter-spacing:1px;font-family:'Montserrat',sans-serif;cursor:pointer">INSTALAR</button>
-      </div>
+        <button onclick="installApp()" style="background:linear-grad
