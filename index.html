@@ -2037,15 +2037,55 @@ function renderDir(f) {
   const baseLng = userLng || BSAS_LNG;
   const MAX_DIST = 80; // km — beyond this gets penalized (Mar del Plata ~400km)
 
+  // ── SMART SORT ──
+  // Detectar si es noche de fin de semana (viernes/sábado después de las 20hs)
+  const now = new Date();
+  const hr = now.getHours();
+  const dow = now.getDay(); // 0=dom,5=vie,6=sab
+  const isNightOut = (dow === 5 || dow === 6 || dow === 0) && (hr >= 20 || hr < 6);
+  const isWeekend = (dow === 5 || dow === 6 || dow === 0);
+
   list = list.slice().sort(function(a, b) {
     const distA = distKm(baseLat, baseLng, a.lat, a.lng);
     const distB = distKm(baseLat, baseLng, b.lat, b.lng);
-    // Penalize places > MAX_DIST km heavily
-    const farA = distA > MAX_DIST ? 1000 : 0;
-    const farB = distB > MAX_DIST ? 1000 : 0;
-    // Relevance score: votes + open bonus + event today bonus
-    const scoreA = (getV(a.id) * 3) + (a.open ? 2 : 0) + (a.events.some(e=>e.hoy) ? 3 : 0) - (distA * 0.1) - farA;
-    const scoreB = (getV(b.id) * 3) + (b.open ? 2 : 0) + (b.events.some(e=>e.hoy) ? 3 : 0) - (distB * 0.1) - farB;
+
+    // 1. DISTANCIA — lugares lejanos (Mar del Plata etc) van al fondo
+    const farA = distA > MAX_DIST ? 800 : 0;
+    const farB = distB > MAX_DIST ? 800 : 0;
+
+    // 2. PROXIMIDAD — escala suave, prioriza zona pero no elimina lejanos
+    const proxA = Math.max(0, 15 - distA * 0.8);
+    const proxB = Math.max(0, 15 - distB * 0.8);
+
+    // 3. POPULARIDAD — votos son el signal más fuerte
+    const votesA = getV(a.id) * 5;
+    const votesB = getV(b.id) * 5;
+
+    // 4. EVENTO HOY — sube mucho si hay algo ahora
+    const eventA = a.events.some(function(e){ return e.hoy; }) ? 10 : 0;
+    const eventB = b.events.some(function(e){ return e.hoy; }) ? 10 : 0;
+
+    // 5. TIPO × HORARIO — noche de fin de semana: boliches arriba
+    //    Resto del tiempo: bares y boliches mezclados
+    var typeA = 0, typeB = 0;
+    if (isNightOut) {
+      typeA = a.type === 'boliche' ? 8 : 0;
+      typeB = b.type === 'boliche' ? 8 : 0;
+    } else if (isWeekend) {
+      typeA = a.type === 'boliche' ? 4 : 2;
+      typeB = b.type === 'boliche' ? 4 : 2;
+    }
+
+    // 6. ABIERTO AHORA — pequeño boost
+    const openA = a.open ? 3 : 0;
+    const openB = b.open ? 3 : 0;
+
+    // 7. FEATURED (pagos) — siempre arriba si están en zona del usuario
+    const featA = (a.featured && distA <= MAX_DIST) ? 50 : 0;
+    const featB = (b.featured && distB <= MAX_DIST) ? 50 : 0;
+
+    const scoreA = featA + votesA + proxA + eventA + typeA + openA - farA;
+    const scoreB = featB + votesB + proxB + eventB + typeB + openB - farB;
     return scoreB - scoreA;
   });
 
